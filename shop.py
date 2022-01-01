@@ -10,6 +10,7 @@ def fonction_shop(inventaire, argent, liste_item, liste_prix):
 
     liste_item_etage3 = ["item7", "item8", "item9"]
     liste_prix_etage3 = [35, 40, 45]
+    global result
 
     title = "\n Bienvenue dans le shop, que souhaitez vous faire ? \n"
     print("inventaire:", inventaire)
@@ -34,12 +35,13 @@ def fonction_shop(inventaire, argent, liste_item, liste_prix):
         else:
             print("Erreur, il faut choisir 'acheter', 'vendre' ou 'quitter'.")
 
+        if choice_action == "quitter" or index == 2:
+            break
         inventaire = result[0]
         argent = result[1]
         choice_action, index = pick(
             options, title, indicator='=>', default_index=0)
-        if choice_action == "quitter" or index == 2:
-            break
+
     return inventaire, argent
 
 
