@@ -1,3 +1,4 @@
+# from _typeshed import Self
 from os import system
 from pick import pick
 from rogue_like import Goblin
@@ -12,7 +13,10 @@ from rogue_like import Boss1, Boss2, Final_Boss
 
 
 global hp, hpmonster, playerdead, monsterdead, monster_name
+hp_max = 200
 hp = 200
+exp = 0
+niveau = 1
 atk = 15
 dfs = 5
 agi = 5
@@ -74,7 +78,7 @@ def attackmonster(atkmonster, agi, agimonster, strikemonster):
 
 
 def hpcount(strike, strikemonster, enemy):
-    global hp, hpmonster, playerdead, monsterdead
+    global hp, hpmonster, playerdead, monsterdead, adversary
     if hp > 0 and hpmonster > 0:
         if agi >= agimonster:
             armormonster = dfsmonster
@@ -115,6 +119,7 @@ def hpcount(strike, strikemonster, enemy):
     elif hpmonster < 0:
         hpmonster = 0
         monsterdead = True
+
     return(hp, hpmonster, playerdead, monsterdead)
 
 
@@ -132,7 +137,7 @@ def fight(enemy, strike, strikemonster, atk, agi, agimonster):
     while hp > 0 and hpmonster > 0:
         print("PV du ", monster_name, "sauvage : ", hpmonster, "PV")
         print("Il vous reste actuellement", hp, "Points de vie.")
-        title = "Que voulez-vous faire ?"
+        title = f"Vous affrontez {monster_name} \n Que voulez-vous faire ?"
         options = ["attaquer", "inventaire", "fuir"]
         fight1, index = pick(options, title, indicator='=>', default_index=0)
         if fight1 == "attaquer" or index == 0:
@@ -140,7 +145,7 @@ def fight(enemy, strike, strikemonster, atk, agi, agimonster):
             attaquer(strike, strikemonster, atk, agi, agimonster, enemy)
         elif fight1 == "inventaire" or index == 1:
             # MANAGE INVENTORY
-            fonction_inventory(inventaire, hp)
+            fonction_inventory(inventaire, hp, hp_max)
 
             strikemonster = attackmonster(
                 atkmonster, agi, agimonster, strikemonster)
@@ -152,9 +157,42 @@ def fight(enemy, strike, strikemonster, atk, agi, agimonster):
             break
 
 
+def exp_gain(hp_max, exp, niveau, atk, dfs, adversary):
+    lvlgain = 100
+
+    if adversary == foe:
+        gain = randint(90, 100)
+    elif adversary == Goblin:
+        gain = randint(25, 45)
+    elif adversary == Monster:
+        gain = randint(100, 150)
+    elif adversary == Boss1:
+        gain = randint(55, 85)
+    elif adversary == Boss2:
+        gain = randint(150, 200)
+    elif adversary == Final_Boss:
+        gain = randint(200, 300)
+
+    exp += gain
+
+    while exp >= lvlgain:
+        niveau += 1
+        exp -= lvlgain
+        lvlgain = round(lvlgain * 1.5)
+        title = f"Vous avez gagner un niveau, vous etes niveau {niveau} quel stat voulez vous augmenter"
+        options = ["Vie", "Attaque", "Défense"]
+        choix_up, index = pick(options, title, indicator='=>', default_index=0)
+        if index == 0:
+            hp_max += 10
+        elif index == 1:
+            atk += 4
+        elif index == 2:
+            dfs += 4
+    return hp_max, exp, niveau, atk, dfs
+
+
 def encounter(y, x, adversary):
-    global hp, hpmonster, playerdead, monsterdead, atkmonster, dfsmonster, agimonster, monster_name
-    monster_name = None
+    global hp, hpmonster, playerdead, monsterdead, atkmonster, dfsmonster, agimonster, monster_name, atk, agi, dfs, exp, niveau, hp_max
     if adversary == foe:
         foes_name = ['Thierry Le Maignan', 'Sandie La Malice',
                      'Julien le rusé', 'Fabien le ténébreux', 'Baptiste le moine']
@@ -219,15 +257,15 @@ def encounter(y, x, adversary):
         monsterdead = False
         Boss3dead = False
 
-    print("Vous rencontrez un", monster_name, "🙀")
-    title = "Que voulez-vous faire ?"
+    # print(f"Vous rencontrez un {monster_name} 🙀")
+    title = f"Vous rencontrez un {monster_name} 🙀 \n Que voulez-vous faire ?"
     options = ["Fuir", "Attaquer"]
     choix, index = pick(options, title, indicator='=>', default_index=0)
 
 
 # choix = (input("Que faire? "))
     system("clear")
-    choix = choix.strip()
+    # choix = choix.strip()
     while playerdead != True or monsterdead != True:
         if choix == "attaquer" or index == 1:
             fight(adversary, strike, strikemonster, atk, agi, agimonster)
@@ -235,6 +273,12 @@ def encounter(y, x, adversary):
                 system("clear")
                 print("Vous avez vaincu le", monster_name, "sauvage !")
                 print("Il vous reste", hp, "Points de vie")
+                hp_max, exp, niveau, atk, dfs = exp_gain(
+                    hp_max, exp, niveau, atk, dfs, adversary)
+
+                print(f"Vous avez gagner {exp}xp")
+                print(f"Vous êtes niveau {niveau}")
+
                 waiting = input("Press Enter to continue")
                 if waiting == "":
                     system("clear")

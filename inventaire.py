@@ -1,4 +1,4 @@
-
+from pick import pick
 # inventory = ["item_soin_basique", "item_1",
 #              "item_soin2", "item_armure1", "item_4", "item_arme1"]
 
@@ -54,40 +54,54 @@ def objet_inventaire_verif(choice, inventory):
     return False
 
 
-def fonction_inventory(inventory, hp):
+def fonction_inventory(inventory, hp, hp_max):
     L_objet_soin = ["Potion"]
     L_heal_value = [20]
     # L_objet_armure = ["plaque du mort", "warmog"]
     L_armor_value = [20, 30]
     L_objet_arme = ["master sword"]
     L_arme_value = [20]
-    print("Vous êtes dans votre inventaire, vous pouvez utiliser des soins, changer d'armure ou changer d'arme.\n")
-    print("Inventaire :", inventory, "\n")
-    print("Choisissez un objet ou quittez l'inventaire en choisissant 'quitter':")
-    choice = input("--> ")
+    # print("Vous êtes dans votre inventaire, vous pouvez utiliser des soins, changer d'armure ou changer d'arme.\n")
+    # print("Inventaire :", inventory, "\n")
+    # print("Choisissez un objet ou quittez l'inventaire en choisissant 'quitter':")
+    title = f"Choisissez un objet ou quittez l'inventaire en choisissant 'quitter': \n Vous avez {hp}hp/{hp_max}hp"
+    options = []
+    for i in range(len(inventory)):
+        options.append(inventory[i])
+    options.append("quitter")
+    choice, index = pick(
+        options, title, indicator='=>', default_index=0)
+    # choice = input("--> ")
     while choice != "quitter":
         i = objet_inventaire_verif(choice, inventory)
         if i == True:
             j = objet_soin_verif(choice, L_objet_soin)
             if j != "non":
-                if hp == 200:
-                    print(
-                        "Vous ne pouvez pas utiliser cet item, vos hp sont déjà au maximum.")
+                if hp == hp_max:
+                    # print(
+                    #     "Vous ne pouvez pas utiliser cet item, vos hp sont déjà au maximum.")
+                    title = f"Choisissez un objet ou quittez l'inventaire en choisissant 'quitter': \n Vous avez {hp}hp/{hp_max}hp \n Vous ne pouvez pas utiliser cet item, vos hp sont déjà au maximum."
                     pass
                 else:
                     print("Voulez-vous utiliser l'objet de soin '",
                           inventory[j], "' ?")
-                    print("Vous avez", hp, "hp sur", 200, "hp max.")
+                    print("Vous avez", hp, "hp sur", hp_max, "hp max.")
                     print("cet objet heal",
                           L_heal_value[j], "hp, êtes-vous sure ?")
-                    choice2 = input("oui ou non ? ")
+                    title2 = f"Voulez-vous utiliser l'objet de soin {inventory[j]} ?"
+                    options2 = ["oui", "non"]
+                    choice2, index = pick(
+                        options2, title2, indicator='=>', default_index=0)
+                    # choice2 = input("oui ou non ? ")
                     if choice2 == "oui":
                         hp_heal = L_heal_value[j]
                         hp += hp_heal
                         inventory.remove(choice)
-                        if 200 < hp:
-                            hp = 200
-                        print("-> '", choice, "' utilisé")
+                        options.remove(choice)
+                        if hp_max < hp:
+                            hp = hp_max
+                        # print(f"-> {choice} utilisé")
+                        title = f"Choisissez un objet ou quittez l'inventaire en choisissant 'quitter': \n Vous avez {hp}hp/{hp_max}hp \n  -> {choice} utilisé"
                     else:
                         pass
             # k = objet_armure_verif(choice, L_objet_armure)
@@ -133,14 +147,16 @@ def fonction_inventory(inventory, hp):
             if j == "non":
                 print("objet", choice, "non utilisable.")
 
-        if i == False:
-            print("Cet objet n'est pas dans votre inventaire, vérifier l'ortographe.")
+        # if i == False:
+        #     print("Cet objet n'est pas dans votre inventaire, vérifier l'ortographe.")
 
-        print(" ")
-        print("HP :", hp, "/", 200)
-        print("Inventaire :", inventory, "\n")
-        print("Choisissez un objet ou quittez l'inventaire en choisissant 'quitter':")
-        choice = input("--> ")
+        # print(" ")
+        # print("HP :", hp, "/", 200)
+        # print("Inventaire :", inventory, "\n")
+        # print("Choisissez un objet ou quittez l'inventaire en choisissant 'quitter':")
+        choice, index = pick(
+            options, title, indicator='=>', default_index=0)
+        # choice = input("--> ")
 
 
 # fonction_inventory(inventaire, hp)

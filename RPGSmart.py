@@ -1,25 +1,24 @@
+from rogue_like import Boss1, Boss2, Final_Boss
 from Menu import main_menu
 from shop import fonction_shop
 from fight import encounter
-from rogue_like import Monster_Encounter
-from rogue_like import Player_Movement
-from rogue_like import world_map
-from rogue_like import Goblin_Movement
 from inventaire import inventaire
-from rogue_like import Boss1
+from rogue_like import Monster_Encounter, Player_Movement, world_map, Monster_Movement, Goblin_Movement, Monster, Goblin, foe, Boss1
 
 
 def Main():
-    from Menu import main_menu
-    from shop import fonction_shop
-    from fight import encounter
-    from rogue_like import Monster_Encounter, Player_Movement, world_map, Monster_Movement, Goblin_Movement, Monster, Goblin, foe, Boss1
     argent = 50
-    liste_item = ["Potion", "Bombe", "item3"]
-    liste_prix = [5, 10, 15]
+    liste_item_etage1 = ["potion", "bombe", "corde"]
+    liste_prix_etage1 = [5, 10, 15]
+
+    liste_item_etage2 = ["potion +", "bombe", "Cote Ã©pineuse"]
+    liste_prix_etage2 = [20, 25, 30]
+
+    liste_item_etage3 = ["potion X", "explo-bombe", "gucci loafers"]
+    liste_prix_etage3 = [35, 40, 45]
     global y, x, inventaire
-    y = 19
-    x = 14
+    y = int(19)
+    x = int(14)
     gobliny = 19
     goblinx = 7
     monstery = 9
@@ -40,9 +39,19 @@ def Main():
             encounter(y, x, Goblin)
         if y == 16 and x == 13:
             inventaire, argent = fonction_shop(
-                inventaire, argent, liste_item, liste_prix)
+                inventaire, argent, liste_item_etage1, liste_prix_etage1)
         if y == 13 and x == 3:
-            encounter(y, x, Boss1)
+            inventaire, argent = fonction_shop(
+                inventaire, argent, liste_item_etage2, liste_prix_etage2)
+        if y == 3 and x == 10:
+            inventaire, argent = fonction_shop(
+                inventaire, argent, liste_item_etage3, liste_prix_etage3)
+        if y == 15 and x == 0:
+            y, x = encounter(y, x, Boss1)
+        if y == 7 and x == 14:
+            y, x = encounter(y, x, Boss2)
+        if y == 0 and x == 0:
+            y, x = encounter(y, x, Final_Boss)
         else:
             Monster_Chance = Monster_Encounter()
             if Monster_Chance < 15:
