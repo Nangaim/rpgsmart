@@ -8,11 +8,12 @@ from inventaire import fonction_inventory, inventaire
 # Boss1dead, Boss2dead, Final_Bossdead
 from rogue_like import Goblin, Monster, foe, Boss1, Boss2, Final_Boss
 global hp, hpmonster, playerdead, monsterdead, monster_name
-hp_max = 200
-hp = 200
+hp_max = 10
+hp = 10
 exp = 0
 niveau = 1
-atk = 50
+lvlgain = 100
+atk = 100
 dfs = 5
 agi = 5
 strike = 1
@@ -150,7 +151,6 @@ def fight(enemy, strike, strikemonster, atk, agi, agimonster):
         options = ["attaquer", "inventaire", "fuir"]
         fight1, index = pick(options, title, indicator='=>', default_index=0)
         if fight1 == "attaquer" or index == 0:
-            system("clear")
             attaquer(strike, strikemonster, atk, agi, agimonster, enemy)
         elif fight1 == "inventaire" or index == 1:
             # MANAGE INVENTORY
@@ -166,8 +166,7 @@ def fight(enemy, strike, strikemonster, atk, agi, agimonster):
             break
 
 
-def exp_gain(hp_max, exp, niveau, atk, dfs, adversary, lvl):
-    lvlgain = 100
+def exp_gain(hp_max, exp, niveau, atk, dfs, adversary, lvl, lvlgain):
     if adversary == foe:
         if lvl == 1:
             gain = randint(40, 50)
@@ -201,11 +200,11 @@ def exp_gain(hp_max, exp, niveau, atk, dfs, adversary, lvl):
             atk += 4
         elif index == 2:
             dfs += 4
-    return hp_max, exp, niveau, atk, dfs
+    return hp_max, exp, niveau, atk, dfs, lvlgain
 
 
 def encounter(adversary, lvl):
-    global hp, hpmonster, playerdead, monsterdead, atkmonster, dfsmonster, agimonster, monster_name, atk, agi, dfs, exp, niveau, hp_max, Boss1dead, Boss2dead, Final_Bossdead
+    global hp, hpmonster, playerdead, monsterdead, atkmonster, dfsmonster, agimonster, monster_name, atk, agi, dfs, exp, niveau, hp_max, Boss1dead, Boss2dead, Final_Bossdead, lvlgain
     Boss1dead = False
     Boss2dead = False
     Final_Bossdead = False
@@ -220,6 +219,7 @@ def encounter(adversary, lvl):
             agimonster = 5
             strikemonster = 1
             monsterdead = False
+            argent_mob = randint(5, 10)
         if lvl == 2:
             foes_name2 = ['Springtrap', 'Maitre soupier',
                           'Carlos', 'Théo Duval', 'Floppa']
@@ -230,6 +230,7 @@ def encounter(adversary, lvl):
             agimonster = 5
             strikemonster = 1
             monsterdead = False
+            argent_mob = randint(10, 20)
         if lvl == 3:
             foes_name3 = ['Big Floppa', 'Big Chungus',
                           'Biggy Burger', 'дpyr', 'Baptiste le moine']
@@ -240,6 +241,7 @@ def encounter(adversary, lvl):
             agimonster = 5
             strikemonster = 1
             monsterdead = False
+            argent_mob = randint(20, 30)
 
     if adversary == Goblin:
         monster_name = "Goblin"
@@ -258,6 +260,7 @@ def encounter(adversary, lvl):
         agimonster = 5
         strikemonster = 1
         monsterdead = False
+        argent_mob = randint(40, 50)
 
     if adversary == Boss1:
         monster_name = "Boss 1"
@@ -267,6 +270,7 @@ def encounter(adversary, lvl):
         agimonster = 2
         strikemonster = 1
         monsterdead = False
+        argent_mob = randint(20, 30)
 
     if adversary == Boss2:
         monster_name = "Boss 2"
@@ -276,6 +280,7 @@ def encounter(adversary, lvl):
         agimonster = 2
         strikemonster = 1
         monsterdead = False
+        argent_mob = randint(50, 60)
 
     if adversary == Final_Boss:
         monster_name = "Boss Final"
@@ -302,59 +307,72 @@ def encounter(adversary, lvl):
                 system("clear")
                 print("Vous avez vaincu le", monster_name, "sauvage !")
                 print("Il vous reste", hp, "Points de vie")
-                hp_max, exp, niveau, atk, dfs = exp_gain(
-                    hp_max, exp, niveau, atk, dfs, adversary, lvl)
+                hp_max, exp, niveau, atk, dfs, lvlgain = exp_gain(
+                    hp_max, exp, niveau, atk, dfs, adversary, lvl, lvlgain)
 
-                print(f"Vous avez gagner {exp}xp")
+                print(f"Vous avez gagner {exp}xp/{lvlgain}")
                 print(f"Vous êtes niveau {niveau}")
+                print(f"Le monstre vous a donné {argent_mob}€")
                 waiting = input("Press Enter to continue")
                 if waiting == "":
                     system("clear")
+                return monsterdead, hp, argent_mob, hp_max, exp, niveau, lvlgain
             if Boss1dead == True:
                 system("clear")
                 print("Vous avez vaincu le", monster_name, "sauvage !")
                 print("Il vous reste", hp, "Points de vie")
-                hp_max, exp, niveau, atk, dfs = exp_gain(
-                    hp_max, exp, niveau, atk, dfs, adversary, lvl)
-                print(f"Vous avez gagner {exp}xp")
+                hp_max, exp, niveau, atk, dfs, lvlgain = exp_gain(
+                    hp_max, exp, niveau, atk, dfs, adversary, lvl, lvlgain)
+                print(f"Vous avez gagner {exp}xp/{lvlgain}")
                 print(f"Vous êtes niveau {niveau}")
                 waiting = input("Press Enter to continue")
                 if waiting == "":
                     system("clear")
-                return Boss1dead
+                return Boss1dead, hp, argent_mob, hp_max, exp, niveau, lvlgain
             if Boss2dead == True:
                 system("clear")
                 print("Vous avez vaincu le", monster_name, "sauvage !")
                 print("Il vous reste", hp, "Points de vie")
-                hp_max, exp, niveau, atk, dfs = exp_gain(
-                    hp_max, exp, niveau, atk, dfs, adversary, lvl)
-                print(f"Vous avez gagner {exp}xp")
+                hp_max, exp, niveau, atk, dfs, lvlgain = exp_gain(
+                    hp_max, exp, niveau, atk, dfs, adversary, lvl, lvlgain)
+                print(f"Vous avez gagner {exp}xp/{lvlgain}")
                 print(f"Vous êtes niveau {niveau}")
                 waiting = input("Press Enter to continue")
                 if waiting == "":
                     system("clear")
+                return Boss2dead, hp, argent_mob, hp_max, exp, niveau, lvlgain
             if Final_Bossdead == True:
                 system("clear")
                 print("Vous avez vaincu le", monster_name, "sauvage !")
                 print("Il vous reste", hp, "Points de vie")
-                hp_max, exp, niveau, atk, dfs = exp_gain(
-                    hp_max, exp, niveau, atk, dfs, adversary, lvl)
-                print(f"Vous avez gagner {exp}xp")
+                hp_max, exp, niveau, atk, dfs, lvlgain = exp_gain(
+                    hp_max, exp, niveau, atk, dfs, adversary, lvl, lvlgain)
+                print(f"Vous avez gagner {exp}xp/{lvlgain}")
                 print(f"Vous êtes niveau {niveau}")
                 waiting = input("Press Enter to continue")
                 if waiting == "":
                     system("clear")
+                return Final_Bossdead, hp, argent_mob, hp_max, exp, niveau, lvlgain
             if playerdead == True:
                 system("clear")
+                print(""" 
+  _____                         ____                 
+ / ____|                       / __ \                
+| |  __  __ _ _ __ ___   ___  | |  | |_   _____ _ __ 
+| | |_ |/ _` | '_ ` _ \ / _ \ | |  | \ \ / / _ \ '__|
+| |__| | (_| | | | | | |  __/ | |__| |\ V /  __/ |   
+ \_____|\__,_|_| |_| |_|\___|  \____/  \_/ \___|_|   
+    """)
                 print("Vous avez été vaincu par le ",
                       monster_name, "sauvage !")
-                print("Miskine")
                 waiting = input("Press Enter to continue")
                 if waiting == "":
                     system("clear")
-                return playerdead
+                return playerdead, hp, argent_mob, hp_max, exp, niveau, lvlgain
         if choix == "fuir" or index == 0:
-            break
+            monsterdead == False
+            argent_mob == 0
+            return monsterdead, hp, argent_mob, hp_max, exp, niveau, lvlgain
         else:
             system("clear")
             title = "Vous allez quitter la combat !"
@@ -362,4 +380,6 @@ def encounter(adversary, lvl):
             choix, index = pick(
                 options, title, indicator='=>', default_index=0)
             if choix == "Quitter":
-                break
+                monsterdead == False
+                argent_mob == 0
+                return monsterdead, hp, argent_mob, hp_max, exp, niveau, lvlgain

@@ -55,7 +55,7 @@ def objet_inventaire_verif(choice, inventory):
 
 
 def fonction_inventory(inventory, hp, hp_max):
-    L_objet_soin = ["Potion"]
+    L_objet_soin = ["potion"]
     L_heal_value = [20]
     # L_objet_armure = ["plaque du mort", "warmog"]
     L_armor_value = [20, 30]
