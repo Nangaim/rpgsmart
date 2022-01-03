@@ -11,9 +11,9 @@ Master_Roshi = "🥸 "
 Monster = "😡"
 Goblin = "🤑"
 foe = 1
-
-
+lvl = 1
 # ---------------------------------------------------------------------
+
 
 def Goblin_Movement(gobliny, goblinx):
     Index1 = randint(1, 3)
@@ -144,3 +144,15 @@ def world_map(y, x, monstery, monsterx, gobliny, goblinx):
         print(*World_Map[a])
         a += 1
     return Map
+
+
+def LvlDesign(y, lvl):
+    if y < 15:
+        lvl = 2
+        return lvl
+    if y < 7:
+        lvl = 3
+        return lvl
+    else:
+        lvl = 1
+        return lvl
