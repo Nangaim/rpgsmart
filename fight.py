@@ -3,15 +3,16 @@ from os import system
 from pick import pick
 from random import randint
 from inventaire import fonction_inventory, inventaire
+from Menu import finalboss3
 
 # IMPORT DES BOSS A FAIRE DANS /ROGUE_LIKE.PY
 # Boss1dead, Boss2dead, Final_Bossdead
-from rogue_like import Goblin, Monster, foe, Boss1, Boss2, Final_Boss
+from rogue_like import Goblin, Monster, foe, Boss1, Boss2, Final_Boss, Master_Roshi
 global hp, hpmonster, playerdead, monsterdead, monster_name
-hp_max = 10
-hp = 10
+hp_max = 1000
+hp = 1000
 exp = 0
-niveau = 1
+niveau = 11
 lvlgain = 100
 atk = 100
 dfs = 5
@@ -74,7 +75,8 @@ def attackmonster(atkmonster, agi, agimonster, strikemonster):
 
 
 def hpcount(strike, strikemonster, enemy):
-    global hp, hpmonster, playerdead, monsterdead, adversary, Boss1dead, Boss2dead, Final_Bossdead
+    global hp, hpmonster, playerdead, monsterdead, adversary, Boss1dead, Boss2dead, Final_Bossdead, atkmonster, dfsmonster
+    if_low = 0
     if hp > 0 and hpmonster > 0:
         if agi >= agimonster:
             armormonster = dfsmonster
@@ -112,6 +114,13 @@ def hpcount(strike, strikemonster, enemy):
         hp = 0
         playerdead = True
         return (hp, hpmonster, playerdead, monsterdead)
+    elif hpmonster < 400:
+        if monster_name == "Boss Final":
+            if if_low == 0:
+                finalboss3()
+            atkmonster += 15
+            dfsmonster += 15
+            if_low += 1
 
     elif hpmonster < 0:
         if monster_name == "Boss 1":
@@ -122,6 +131,12 @@ def hpcount(strike, strikemonster, enemy):
             hpmonster = 0
             Boss2dead = True
             return (hp, hpmonster, playerdead, Boss2dead)
+
+        if monster_name == "Master Roshi":
+            hpmonster = 0
+            master_dead = True
+            return (hp, hpmonster, playerdead, master_dead)
+
         if monster_name == "Boss Final":
             hpmonster = 0
             Final_Bossdead = True
@@ -167,6 +182,7 @@ def fight(enemy, strike, strikemonster, atk, agi, agimonster):
 
 
 def exp_gain(hp_max, exp, niveau, atk, dfs, adversary, lvl, lvlgain):
+    global gain
     if adversary == foe:
         if lvl == 1:
             gain = randint(40, 50)
@@ -182,8 +198,10 @@ def exp_gain(hp_max, exp, niveau, atk, dfs, adversary, lvl, lvlgain):
         gain = randint(250, 300)
     elif adversary == Boss2:
         gain = randint(500, 800)
-    elif adversary == Final_Boss:
+    elif adversary == Master_Roshi:
         gain = randint(1000, 1001)
+    elif adversary == Final_Boss:
+        gain = randint(1, 2)
 
     exp += gain
 
@@ -204,9 +222,10 @@ def exp_gain(hp_max, exp, niveau, atk, dfs, adversary, lvl, lvlgain):
 
 
 def encounter(adversary, lvl):
-    global hp, hpmonster, playerdead, monsterdead, atkmonster, dfsmonster, agimonster, monster_name, atk, agi, dfs, exp, niveau, hp_max, Boss1dead, Boss2dead, Final_Bossdead, lvlgain
+    global hp, hpmonster, playerdead, monsterdead, atkmonster, dfsmonster, agimonster, monster_name, atk, agi, dfs, exp, niveau, hp_max, Boss1dead, Boss2dead, Final_Bossdead, lvlgain, master_dead
     Boss1dead = False
     Boss2dead = False
+    master_dead = False
     Final_Bossdead = False
     if adversary == foe:
         if lvl == 1:
@@ -282,6 +301,16 @@ def encounter(adversary, lvl):
         monsterdead = False
         argent_mob = randint(50, 60)
 
+    if adversary == Master_Roshi:
+        monster_name = "Master Roshi"
+        hpmonster = 650
+        atkmonster = 30
+        dfsmonster = 15
+        agimonster = 2
+        strikemonster = 1
+        monsterdead = False
+        argent_mob = 0
+
     if adversary == Final_Boss:
         monster_name = "Boss Final"
         hpmonster = 800
@@ -341,6 +370,20 @@ def encounter(adversary, lvl):
                 if waiting == "":
                     system("clear")
                 return Boss2dead, hp, argent_mob, hp_max, exp, niveau, lvlgain
+
+            if master_dead == True:
+                system("clear")
+                print("Vous avez vaincu le", monster_name, "sauvage !")
+                print("Il vous reste", hp, "Points de vie")
+                hp_max, exp, niveau, atk, dfs, lvlgain = exp_gain(
+                    hp_max, exp, niveau, atk, dfs, adversary, lvl, lvlgain)
+                print(f"Vous avez gagner {exp}xp/{lvlgain}")
+                print(f"Vous êtes niveau {niveau}")
+                waiting = input("Press Enter to continue")
+                if waiting == "":
+                    system("clear")
+                return master_dead, hp, argent_mob, hp_max, exp, niveau, lvlgain
+
             if Final_Bossdead == True:
                 system("clear")
                 print("Vous avez vaincu le", monster_name, "sauvage !")

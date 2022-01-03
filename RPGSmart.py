@@ -1,6 +1,7 @@
+from time import sleep
 from rogue_like import Boss1, Boss2, Final_Boss, LvlDesign
-# from Menu import main_menu
-from os import system
+from Menu import shopkeeper1, shopkeeper2, shopkeeper3, zone2, zone3, scriptroshi1, scriptroshi2, scriptroshi3, finalboss4
+from os import spawnle, system
 from shop import fonction_shop
 from fight import encounter, hp, hp_max, niveau, exp, lvlgain
 from inventaire import inventaire
@@ -8,7 +9,7 @@ from rogue_like import Monster_Encounter, Player_Movement, world_map, Monster_Mo
 
 
 def Main():
-    from rogue_like import lvl, Monster, Goblin, foe, Boss1, Boss2, Final_Boss
+    from rogue_like import lvl, Monster, Goblin, foe, Boss1, Boss2, Final_Boss, Master_Roshi
     argent = 50
     global inventaire, hp, hp_max, exp, niveau, lvlgain
     liste_item_etage1 = ["potion", "bombe", "corde"]
@@ -19,7 +20,8 @@ def Main():
 
     liste_item_etage3 = ["potion X", "explo-bombe", "gucci loafers"]
     liste_prix_etage3 = [35, 40, 45]
-    y = 16
+    # 19,14
+    y = 1
     x = 0
     gobliny = 19
     goblinx = 7
@@ -29,7 +31,9 @@ def Main():
     monsterdead = False
     Boss1dead = False
     Boss2dead = False
+    master_dead = False
     Final_Bossdead = False
+    visited = 0
 
     print("Pour bouger le personnage:")
     print(" -Haut  -bas \n -gauche  -droite")
@@ -49,14 +53,26 @@ def Main():
         if y == gobliny and x == goblinx:
             encounter(Goblin, lvl)
         if y == 16 and x == 13:
+            if visited == 0:
+                shopkeeper1()
+                sleep(1)
             inventaire, argent = fonction_shop(
                 inventaire, argent, liste_item_etage1, liste_prix_etage1)
+            visited += 1
         if y == 13 and x == 3:
+            if visited == 0:
+                shopkeeper2()
+                sleep(1)
             inventaire, argent = fonction_shop(
                 inventaire, argent, liste_item_etage2, liste_prix_etage2)
+            visited += 1
         if y == 3 and x == 10:
+            if visited == 0:
+                shopkeeper3()
+                sleep(1)
             inventaire, argent = fonction_shop(
                 inventaire, argent, liste_item_etage3, liste_prix_etage3)
+            visited += 1
         if y == 15 and x == 0:
             Boss1dead, hp, argent_mob, hp_max, exp, niveau, lvlgain = encounter(
                 Boss1, lvl)
@@ -64,6 +80,8 @@ def Main():
             if Boss1dead == True:
                 y -= 2
                 world_map(y, x, monstery, monsterx, gobliny, goblinx)
+                zone2()
+                sleep(1)
                 pass
         if y == 7 and x == 14:
             Boss2dead, hp, argent_mob, hp_max, exp, niveau, lvlgain = encounter(
@@ -72,13 +90,31 @@ def Main():
             if Boss2dead == True:
                 y -= 2
                 world_map(y, x, monstery, monsterx, gobliny, goblinx)
+                zone3()
+                sleep(1)
+                pass
+
+        if y == 3 and x == 14:
+            if niveau > 10:
+                scriptroshi2()
+                sleep(1)
+                master_dead, hp, argent_mob, hp_max, exp, niveau, lvlgain = encounter(
+                    Master_Roshi, lvl)
+                if master_dead == True:
+                    scriptroshi3()
+                    world_map(y, x, monstery, monsterx, gobliny, goblinx)
+
+            else:
+                scriptroshi1()
+                sleep(1)
                 pass
         if y == 0 and x == 0:
             Final_Bossdead, hp, argent_mob, hp_max, exp, niveau, lvlgain = encounter(
                 Final_Boss, lvl)
             if Final_Bossdead == True:
                 system("clear")
-                print("OMG POGGERS VOUS AVEZ VAINCU LE SOCIER MALEFIQUE")
+                finalboss4()
+
         if y == 0 and x == 0:
             encounter(Final_Boss, lvl)
         else:

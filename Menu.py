@@ -1,7 +1,7 @@
 from time import sleep
 import sys
 from pick import pick
-from RPGSmart import Main
+# from RPGSmart import Main
 
 
 def main_menu():
@@ -48,7 +48,7 @@ def main_menu():
 
 
 def create_character():
-
+    global player_name
     print("Bienvenue aventurier, comment vous appelez-vous?\n")
     player_name = input()
     print("\nFort bien", player_name,
@@ -67,6 +67,21 @@ def script(str):
             sleep(0.04)
 
 
+def shopkeeper1():
+
+    script("\nBonjour, je suis un modeste marchand égaré. Si vous veniez à m'acheter quoi que ce soit, cela pourrait probablement m'aider à repartir... Ce coin est trop étrange pour moi.\n \n Bienvenue.\n")
+
+
+def shopkeeper2():
+
+    script("\nAh, vous revoilà... J'ai bien peur que s'enfoncer dans cet endroit ne soit pas le meilleur moyen pour tenter de m'extraire de mes problèmes. Malheureusement, je n'ai pas vu une quelconque autre sortie dans les parages...\n \nQue puis-je faire pour vous?\n")
+
+
+def shopkeeper3():
+
+    script("\nBonjour, jeune aventurier. Je me rends compte que vous êtes probablement ma meilleure chance de partir d'ici. Je compte sur vous.\n \nDites-moi comment je peux vous aider.\n")
+
+
 def game_start():
 
     script("\nVous vous réveillez dans un paysage inconnu. Un visage étranger vous demande : \n \n - Vous allez bien ? Ca fait un moment que vous êtes là. \n \nConscient de la nature étrange de la situation, vous frottez vos paupières pour découvrir la lumière blafarde du paysage vous entourant, qui se trouve être une brume épaisse. \n \nVous cherchez autour de vous, mais impossible de retrouver la personne qui vous parlait. \n \nCe paysage inhabituel vous intrigue et quelque chose semble briller au loin... \n \nEt si vous alliez y jeter un coup d'oeil?\n")
@@ -81,6 +96,38 @@ def zone1():
 def zone2():
 
     script("\nAprès cette dure épreuve, vous voyez le paysage en face de vous se dégager. Toujours à la recherche de l'homme qui vous a parlé plus tôt, la brume laisse petit à petit place aux arbres. Poursuivez votre chemin, et vos questions trouveront éventuellement des réponses...\n")
+
+
+def zone3():
+
+    script("\nVous vous frayez un chemin en laissant derrière vous la dépouille de l’atroce bête.\n \nEn avançant, vous avez l'impression d'apercevoir au loin une silhouette humaine voire amicale...\n \nSerait-ce enfin là la personne que vous recherchiez?\n")
+
+
+def scriptroshi1():
+
+    script("\nVous êtes donc parvenu jusqu'ici, félicitations. Vous méritez des explications sur ce qui vous arrive et je m'excuse de ne pas vous en avoir offert plus tôt. Cependant, il en va de ma responsabilité de ne pas vous laisser aller plus loin...\n \nCe qui se cache là-bas n'est en rien comparable avec ce que vous avez connu auparavant.\n \nRevenez me voir lorsque vous serez plus fort.\n")
+
+
+def scriptroshi2():
+
+    script(
+        f"\nVous revoilà...\n \nJe préfèrerais directement vous sommer de mettre un terme à votre entreprise.\n \nMalheureusement, je connais la soif inextinguible de l'esprit et la faiblesse de l'Homme. Si je ne vous arrêterai pas, je souhaiterais au moins m'assurer que vous avez les épaules assez larges pour faire face à ce qui vous attend..\n \nEn garde,nangaim, prouvez-moi votre valeur!")
+
+
+def scriptroshi3():
+
+    script(
+        f"\nAlors c'est ainsi...\n \nVous dépassez de loin tout ce que j'ai pu imaginer. J'ai été victime de mon ignorance alors même que je souhaitais vous protéger du haut de mon illusoire sagesse, quelle arrogance, quelle ironie!\n \nnangaim,vous avez toutes mes excuses et ma sympathie. Je vous en prie, prenez ceci...\n \n - Vous avez obtenu l'Epée légendaire.\n \nCela devrait vous permettre de voir le bout de cet affreux rêve. Allez la ou je n'ai jamais pu, brisez le sort... Bon courage.\n")
+
+
+def finalboss3():
+    # drop a 50% HP, phase 2?
+    script("\nTu te débrouilles bien pour un cafard, mais personne ne sortira jamais d'ici. Nous avons assez joué. Ta stupide épée ne te mènera nulle part. Tu vas retrouver le sommeil pour l'éternité.\n")
+
+
+def finalboss4():
+
+    script("\nTout ça à cause d'une misérable épée... Tu peux brûler en enfer misérable insecte... J'irai même jusque là-bas pour te retrouver.\n \n Le jour ou je te mettrai à nouveau la main dessus, tu auras l'impression que ce que tu as vécu aujourd'hui n’était qu’un doux rêve à côté...\n")
 
 
 def rune():
@@ -106,6 +153,3 @@ def rune():
     elif index == 3:
         rune_choice = "prospection"
     return rune_choice
-
-
-main_menu()

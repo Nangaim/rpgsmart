@@ -135,7 +135,7 @@ def world_map(y, x, monstery, monsterx, gobliny, goblinx):
     Map[15][0] = f"|{Boss1}|"
     Map[7][14] = f"|{Boss2}|"
     Map[0][0] = f"|{Final_Boss}|"
-    Map[2][6] = f"|{Master_Roshi}|"
+    Map[3][14] = f"|{Master_Roshi}|"
     Map[monstery][monsterx] = f"|{Monster}|"
     Map[gobliny][goblinx] = f"|{Goblin}|"
     a = 0
