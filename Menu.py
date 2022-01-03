@@ -1,14 +1,20 @@
 from time import sleep
 import sys
+from pick import pick
+from RPGSmart import Main
 
 def main_menu():
 
-    print(" ▄▄▄       ███▄ ▄███▓ ███▄    █ ▓█████   ██████  ██▓ ▄▄▄      \n▒████▄    ▓██▒▀█▀ ██▒ ██ ▀█   █ ▓█   ▀ ▒██    ▒ ▓██▒▒████▄    \n▒██  ▀█▄  ▓██    ▓██░▓██  ▀█ ██▒▒███   ░ ▓██▄   ▒██▒▒██  ▀█▄  \n░██▄▄▄▄██ ▒██    ▒██ ▓██▒  ▐▌██▒▒▓█  ▄   ▒   ██▒░██░░██▄▄▄▄██ \n ▓█   ▓██▒▒██▒   ░██▒▒██░   ▓██░░▒████▒▒██████▒▒░██░ ▓█   ▓██▒\n ▒▒   ▓▒█░░ ▒░   ░  ░░ ▒░   ▒ ▒ ░░ ▒░ ░▒ ▒▓▒ ▒ ░░▓   ▒▒   ▓▒█░\n▒   ▒▒ ░░  ░      ░░ ░░   ░ ▒░ ░ ░  ░░ ░▒  ░ ░ ▒ ░  ▒   ▒▒ ░\n ░   ▒   ░      ░      ░   ░ ░    ░   ░  ░  ░   ▒ ░  ░   ▒   \n░  ░       ░            ░    ░  ░      ░   ░        ░  ░")
+    # print(" ▄▄▄       ███▄ ▄███▓ ███▄    █ ▓█████   ██████  ██▓ ▄▄▄      \n▒████▄    ▓██▒▀█▀ ██▒ ██ ▀█   █ ▓█   ▀ ▒██    ▒ ▓██▒▒████▄    \n▒██  ▀█▄  ▓██    ▓██░▓██  ▀█ ██▒▒███   ░ ▓██▄   ▒██▒▒██  ▀█▄  \n░██▄▄▄▄██ ▒██    ▒██ ▓██▒  ▐▌██▒▒▓█  ▄   ▒   ██▒░██░░██▄▄▄▄██ \n ▓█   ▓██▒▒██▒   ░██▒▒██░   ▓██░░▒████▒▒██████▒▒░██░ ▓█   ▓██▒\n ▒▒   ▓▒█░░ ▒░   ░  ░░ ▒░   ▒ ▒ ░░ ▒░ ░▒ ▒▓▒ ▒ ░░▓   ▒▒   ▓▒█░\n▒   ▒▒ ░░  ░      ░░ ░░   ░ ▒░ ░ ░  ░░ ░▒  ░ ░ ▒ ░  ▒   ▒▒ ░\n ░   ▒   ░      ░      ░   ░ ░    ░   ░  ░  ░   ▒ ░  ░   ▒   \n░  ░       ░            ░    ░  ░      ░   ░        ░  ░")
+    # sleep(2)
+    # print(" 1. Nouvelle partie \n 2. Charger une partie \n 3. Règles \n 4. Credits \n 5. Quitter")
+    title = " ▄▄▄       ███▄ ▄███▓ ███▄    █ ▓█████   ██████  ██▓ ▄▄▄      \n▒████▄    ▓██▒▀█▀ ██▒ ██ ▀█   █ ▓█   ▀ ▒██    ▒ ▓██▒▒████▄    \n▒██  ▀█▄  ▓██    ▓██░▓██  ▀█ ██▒▒███   ░ ▓██▄   ▒██▒▒██  ▀█▄  \n░██▄▄▄▄██ ▒██    ▒██ ▓██▒  ▐▌██▒▒▓█  ▄   ▒   ██▒░██░░██▄▄▄▄██ \n ▓█   ▓██▒▒██▒   ░██▒▒██░   ▓██░░▒████▒▒██████▒▒░██░ ▓█   ▓██▒\n ▒▒   ▓▒█░░ ▒░   ░  ░░ ▒░   ▒ ▒ ░░ ▒░ ░▒ ▒▓▒ ▒ ░░▓   ▒▒   ▓▒█░\n▒   ▒▒ ░░  ░      ░░ ░░   ░ ▒░ ░ ░  ░░ ░▒  ░ ░ ▒ ░  ▒   ▒▒ ░\n ░   ▒   ░      ░      ░   ░ ░    ░   ░  ░  ░   ▒ ░  ░   ▒   \n░  ░       ░            ░    ░  ░      ░   ░        ░  ░"
     sleep(2)
-    print(" 1. Nouvelle partie \n 2. Charger une partie \n 3. Règles \n 4. Credits \n 5. Quitter")
-
-    choice = int(input())
-    if choice == 1 :
+    options = ["Nouvelle partie", "Charger une partie", "Règles", "Credits", "quitter"]
+    # choice = int(input())
+    choice, index = pick(
+        options, title, indicator='=>', default_index=0)
+    if index == 0 :
         print("Le jeu va commencer ! \n")
         sleep(1)
         create_character()
@@ -18,27 +24,29 @@ def main_menu():
         zone1()
         input("\nAppuyez sur Entrer pour continuer")
         rune()
-        zone2()
+        sleep(10)
+        Main()
 
-    elif choice == 2 : 
+
+    elif index == 1 : 
         print("Quelle partie souhaitez-vous charger? (filename)")
         
 
-    elif choice == 3 : 
+    elif index == 2 : 
         print("\n Règles : \n \n Le jeu prendra place dans la première des trois zones de l'univers. \n Il s'agit d'un tour par tour classique dans lequel vous devrez vous confronter à différents monstres dans le but de vous frayer \n un chemin jusqu'à l'antagoniste. \n \n Avant d'y parvenir, vous trouverez sur votre route différents objets et personnages qui vous aideront à poursuivre votre quête. \n  \n Bon courage, aventurier!")
         sleep(15)
         main_menu()
 
-    elif choice == 4 :
+    elif index == 3 :
         print("Credits : Jeu créé par Baptiste Verdier , Fabien Renoir , Julien Rion , Sandie Ouallet et Thierry Maignan.")
         sleep(10)
         main_menu()
 
-    elif choice == 5 :
+    elif index == 4 :
         sys.exit()
         
 
-    return choice
+    return index
 
 def create_character():
 
@@ -53,7 +61,10 @@ def script(str):
     for letter in str:
         sys.stdout.write(letter)
         sys.stdout.flush()
-        sleep(0.01)
+        if letter == ".":
+            sleep(0.5)
+        else:
+            sleep(0.04)
     
 def game_start():
 
@@ -71,25 +82,29 @@ def zone2():
 
 def rune():
 
-    print("Dans votre malheur, vous vous voyez offert une bénédiction qui affectera votre personnage jusqu'à la fin du jeu.\n")
-    print("\n Veuillez choisir une rune parmi les quatre ci-dessous\n")
-    print("\n1. - Triomphe : Vous regagnez des HP après chaque combat\n")
-    print("\n2. - Violence : Vous frappez en premier et votre première attaque est un coup critique\n")
-    print("\n3. - Assiduité : Vous gagnez plus d'XP après chaque combat\n")
-    print("\n4. - Prospection : Vous gagnez plus d'or après chaque combat\n")
+    title = script("Dans votre malheur, vous vous voyez offert une bénédiction qui affectera votre personnage jusqu'à la fin du jeu.\n Veuillez choisir une rune parmi les quatre ci-dessous\n")
+    # script("\n Veuillez choisir une rune parmi les quatre ci-dessous\n")
+    # script("\n1. - Triomphe : Vous regagnez des HP après chaque combat\n")
+    # script("2. - Violence : Vous frappez en premier et votre première attaque est un coup critique")
+    # script("3. - Assiduité : Vous gagnez plus d'XP après chaque combat")
+    # script("4. - Prospection : Vous gagnez plus d'or après chaque combat")
+    options = ["1. - Triomphe : Vous regagnez des HP après chaque combat", "2. - Violence : Vous frappez en premier et votre première attaque est un coup critique", "3. - Assiduité : Vous gagnez plus d'XP après chaque combat", "4. - Prospection : Vous gagnez plus d'or après chaque combat"]
+    choice, index = pick(
+        options, title, indicator='=>', default_index=0)
 
-''' # Collecter le code de verdier
-    rune_choice = int(input())
-    if rune_choice == 1:
-        rune_choice = triomphe()
-    elif rune_choice == 2:
-        rune_choice = violence()
-    elif rune_choice == 3:
-        rune_choice = assiduite()
-    elif rune_choice == 4:
-        rune_choice = prospection()
+    # Collecter le code de verdier
+    if index == 0:
+        rune_choice = "triomphe"
+    elif index == 1:
+        rune_choice = "violence"
+    elif index == 2:
+        rune_choice = "assiduite"
+    elif index == 3:
+        rune_choice = "prospection"
     return rune_choice
-'''
+
+
+main_menu()
 
     
 
