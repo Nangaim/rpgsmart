@@ -78,7 +78,7 @@ def attackmonster(atkmonster, agi, agimonster, strikemonster):
 
 
 def hpcount(strike, strikemonster, enemy):
-    global hp, hpmonster, playerdead, monsterdead, adversary
+    global hp, hpmonster, playerdead, monsterdead, adversary, Boss1dead, Boss2dead
     if hp > 0 and hpmonster > 0:
         if agi >= agimonster:
             armormonster = dfsmonster
@@ -115,12 +115,22 @@ def hpcount(strike, strikemonster, enemy):
     if hp <= 0:
         hp = 0
         playerdead = True
+        return (hp, hpmonster, playerdead, monsterdead)
 
     elif hpmonster < 0:
-        hpmonster = 0
-        monsterdead = True
-
-    return(hp, hpmonster, playerdead, monsterdead)
+        if monster_name == "Boss 1":
+            hpmonster = 0
+            Boss1dead = True
+            return (hp, hpmonster, playerdead, Boss1dead)
+        if monster_name == "Boss 2":
+            hpmonster = 0
+            Boss2dead = True
+            return (hp, hpmonster, playerdead, Boss2dead)
+        else:
+            hpmonster = 0
+            monsterdead = True
+            return (hp, hpmonster, playerdead, monsterdead)
+    return (hp, hpmonster, playerdead, monsterdead)
 
 
 def attaquer(strike, strikemonster, atk, agi, agimonster, enemy):
@@ -137,7 +147,7 @@ def fight(enemy, strike, strikemonster, atk, agi, agimonster):
     while hp > 0 and hpmonster > 0:
         print("PV du ", monster_name, "sauvage : ", hpmonster, "PV")
         print("Il vous reste actuellement", hp, "Points de vie.")
-        title = f"Vous affrontez {monster_name} \n Que voulez-vous faire ?"
+        title = f"Vous affrontez {monster_name} \n Il vous reste {hp} HP \n Que voulez-vous faire ?"
         options = ["attaquer", "inventaire", "fuir"]
         fight1, index = pick(options, title, indicator='=>', default_index=0)
         if fight1 == "attaquer" or index == 0:
@@ -145,12 +155,12 @@ def fight(enemy, strike, strikemonster, atk, agi, agimonster):
             attaquer(strike, strikemonster, atk, agi, agimonster, enemy)
         elif fight1 == "inventaire" or index == 1:
             # MANAGE INVENTORY
-            fonction_inventory(inventaire, hp, hp_max)
-
-            strikemonster = attackmonster(
-                atkmonster, agi, agimonster, strikemonster)
-            hp, hpmonster, playerdead, monsterdead = hpcount(
-                strike, strikemonster, enemy)
+            used = fonction_inventory(inventaire, hp, hp_max)
+            if used == True:
+                strikemonster = attackmonster(
+                    atkmonster, agi, agimonster, strikemonster)
+                hp, hpmonster, playerdead, monsterdead = hpcount(
+                    strike, strikemonster, enemy)
 
             pass
         elif fight1 == "fuir" or index == 2:
@@ -191,8 +201,10 @@ def exp_gain(hp_max, exp, niveau, atk, dfs, adversary):
     return hp_max, exp, niveau, atk, dfs
 
 
-def encounter(y, x, adversary):
-    global hp, hpmonster, playerdead, monsterdead, atkmonster, dfsmonster, agimonster, monster_name, atk, agi, dfs, exp, niveau, hp_max
+def encounter(adversary):
+    global hp, hpmonster, playerdead, monsterdead, atkmonster, dfsmonster, agimonster, monster_name, atk, agi, dfs, exp, niveau, hp_max, Boss1dead, Boss2dead
+    Boss1dead = False
+    Boss2dead = False
     if adversary == foe:
         foes_name = ['Thierry Le Maignan', 'Sandie La Malice',
                      'Julien le rusé', 'Fabien le ténébreux', 'Baptiste le moine']
@@ -223,39 +235,31 @@ def encounter(y, x, adversary):
         monsterdead = False
 
     if adversary == Boss1:
+        monster_name = "Boss 1"
         hpmonster = 250
         atkmonster = 15
         dfsmonster = 10
         agimonster = 2
         strikemonster = 1
         monsterdead = False
-        Boss1dead = False
 
-        if Boss1dead == True:
-            y == 13
-            x == 0
-            return y, x
     if adversary == Boss2:
+        monster_name = "Boss 2"
         hpmonster = 500
         atkmonster = 20
         dfsmonster = 15
         agimonster = 2
         strikemonster = 1
         monsterdead = False
-        Boss2dead = False
 
-        if Boss2dead == True:
-            y == 5
-            x == 14
-            return y, x
     if adversary == Final_Boss:
+        monster_name = "Boss Final"
         hpmonster = 800
         atkmonster = 30
         dfsmonster = 15
         agimonster = 2
         strikemonster = 1
         monsterdead = False
-        Boss3dead = False
 
     # print(f"Vous rencontrez un {monster_name} 🙀")
     title = f"Vous rencontrez un {monster_name} 🙀 \n Que voulez-vous faire ?"
@@ -278,11 +282,33 @@ def encounter(y, x, adversary):
 
                 print(f"Vous avez gagner {exp}xp")
                 print(f"Vous êtes niveau {niveau}")
-
                 waiting = input("Press Enter to continue")
                 if waiting == "":
                     system("clear")
-            elif playerdead == True:
+            if Boss1dead == True:
+                system("clear")
+                print("Vous avez vaincu le", monster_name, "sauvage !")
+                print("Il vous reste", hp, "Points de vie")
+                hp_max, exp, niveau, atk, dfs = exp_gain(
+                    hp_max, exp, niveau, atk, dfs, adversary)
+                print(f"Vous avez gagner {exp}xp")
+                print(f"Vous êtes niveau {niveau}")
+                waiting = input("Press Enter to continue")
+                if waiting == "":
+                    system("clear")
+                return Boss1dead
+            if Boss2dead == True:
+                system("clear")
+                print("Vous avez vaincu le", monster_name, "sauvage !")
+                print("Il vous reste", hp, "Points de vie")
+                hp_max, exp, niveau, atk, dfs = exp_gain(
+                    hp_max, exp, niveau, atk, dfs, adversary)
+                print(f"Vous avez gagner {exp}xp")
+                print(f"Vous êtes niveau {niveau}")
+                waiting = input("Press Enter to continue")
+                if waiting == "":
+                    system("clear")
+            if playerdead == True:
                 system("clear")
                 print("Vous avez été vaincu par le ",
                       monster_name, "sauvage !")

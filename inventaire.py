@@ -61,6 +61,7 @@ def fonction_inventory(inventory, hp, hp_max):
     L_armor_value = [20, 30]
     L_objet_arme = ["master sword"]
     L_arme_value = [20]
+    used = False
     # print("Vous êtes dans votre inventaire, vous pouvez utiliser des soins, changer d'armure ou changer d'arme.\n")
     # print("Inventaire :", inventory, "\n")
     # print("Choisissez un objet ou quittez l'inventaire en choisissant 'quitter':")
@@ -102,6 +103,7 @@ def fonction_inventory(inventory, hp, hp_max):
                             hp = hp_max
                         # print(f"-> {choice} utilisé")
                         title = f"Choisissez un objet ou quittez l'inventaire en choisissant 'quitter': \n Vous avez {hp}hp/{hp_max}hp \n  -> {choice} utilisé"
+                        used = True
                     else:
                         pass
             # k = objet_armure_verif(choice, L_objet_armure)
@@ -157,7 +159,7 @@ def fonction_inventory(inventory, hp, hp_max):
         choice, index = pick(
             options, title, indicator='=>', default_index=0)
         # choice = input("--> ")
-
+    return used
 
 # fonction_inventory(inventaire, hp)
 
