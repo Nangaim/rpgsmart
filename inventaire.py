@@ -54,7 +54,7 @@ def objet_inventaire_verif(choice, inventory):
     return False
 
 
-def fonction_inventory(inventory, hp, hp_max):
+def fonction_inventory(inventory, hp, hp_max, atk):
     L_objet_soin = ["potion"]
     L_heal_value = [20]
     # L_objet_armure = ["plaque du mort", "warmog"]
@@ -128,22 +128,27 @@ def fonction_inventory(inventory, hp, hp_max):
 
             # l = objet_arme_verif(choice, L_objet_arme)
             # if l != "non":
-            #     print("Vos dégâts sont de", stats[8], ".")
-            #     print("L'arme actuellement utilisée est '",
-            #           stats[7], "'qui fait", stats[8]-stats[6], "de dégâts.")
-            #     print("voulez vous la changer par l'objet '", choice,
-            #           "' qui rendra vos dégâts à", L_arme_value[l]+stats[6], "?")
-            #     choice_arme = input("oui ou non ? ")
+            #     print("Vos dégâts sont de", atk, ".")
+            #     # print("L'arme actuellement utilisée est '",
+            #     #       stats[7], "'qui fait", stats[8]-stats[6], "de dégâts.")
+            #     # print(
+            #     #     f"voulez vous la changer par l'objet {choice} qui rendra vos dégâts à {L_arme_value[l]+atk}?")
+            #     title2 = f"voulez vous la changer par l'objet {choice} qui rendra vos dégâts à {L_arme_value[l]+atk}?"
+            #     # choice_arme = input("oui ou non ? ")
+            #     options2 = ["oui", "non"]
+            #     choice_arme, index = pick(
+            #         options2, title2, indicator='=>', default_index=0)
             #     while choice_arme != "oui" and choice_arme != "non":
             #         print("veuillez choisir oui ou non.")
             #         choice_arme = input()
             #     if choice_arme == "non":
             #         pass
             #     if choice_arme == "oui":
-            #         stats[8] = stats[6]
-            #         inventory.append(stats[7])
-            #         stats[7] = choice
-            #         stats[8] += L_arme_value[l]
+            #         # stats[8] = stats[6]
+            #         atk += L_arme_value[l]
+            #         # inventory.append(stats[7])
+            #         # stats[7] = choice
+            #         # stats[8] += L_arme_value[l]
             #         inventory.remove(choice)
 
             if j == "non":

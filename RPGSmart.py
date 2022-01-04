@@ -1,9 +1,10 @@
+from pick import pick
 from time import sleep
-from rogue_like import Boss1, Boss2, Final_Boss, LvlDesign
-from Menu import shopkeeper1, shopkeeper2, shopkeeper3, zone2, zone3, scriptroshi1, scriptroshi2, scriptroshi3, finalboss4
+from rogue_like import Boss1, Boss2, Final_Boss, LvlDesign, master_sword
+from Menu import shopkeeper1, shopkeeper2, shopkeeper3, zone2, zone3, scriptroshi1, scriptroshi2, scriptroshi3, finalboss4, script
 from os import spawnle, system
 from shop import fonction_shop
-from fight import encounter, hp, hp_max, niveau, exp, lvlgain
+from fight import encounter, hp, hp_max, niveau, exp, lvlgain, atk, dfs
 from inventaire import inventaire
 from rogue_like import Monster_Encounter, Player_Movement, world_map, Monster_Movement, Goblin_Movement, LvlDesign
 
@@ -11,7 +12,7 @@ from rogue_like import Monster_Encounter, Player_Movement, world_map, Monster_Mo
 def Main():
     from rogue_like import lvl, Monster, Goblin, foe, Boss1, Boss2, Final_Boss, Master_Roshi
     argent = 50
-    global inventaire, hp, hp_max, exp, niveau, lvlgain
+    global inventaire, hp, hp_max, exp, niveau, lvlgain, master_sword_here, atk, sword
     liste_item_etage1 = ["potion", "bombe", "corde"]
     liste_prix_etage1 = [5, 10, 15]
 
@@ -21,8 +22,8 @@ def Main():
     liste_item_etage3 = ["potion X", "explo-bombe", "gucci loafers"]
     liste_prix_etage3 = [35, 40, 45]
     # 19,14
-    y = 1
-    x = 0
+    y = 4
+    x = 14
     gobliny = 19
     goblinx = 7
     monstery = 9
@@ -34,12 +35,17 @@ def Main():
     master_dead = False
     Final_Bossdead = False
     visited = 0
-
+    master_sword_here = False
     print("Pour bouger le personnage:")
     print(" -Haut  -bas \n -gauche  -droite")
     world_map(y, x, monstery, monsterx, gobliny, goblinx)
     print(f"argent: {argent}€       {hp}hp / {hp_max}hp")
+    print(f"Stats: {atk}Atk        {dfs}dfs")
     print(f"niveau: {niveau}        {exp}xp / {lvlgain}xp")
+    print(f"Votre inventaire: {inventaire}")
+    sword = master_sword(master_dead)
+    print(
+        f"Vous possédez une épée basique: {sword}")
     while Player_Life > 0:
         lvl = LvlDesign(y, lvl)
         Move = input("Entrez une direction: ")
@@ -96,12 +102,14 @@ def Main():
 
         if y == 3 and x == 14:
             if niveau > 10:
-                scriptroshi2()
+                # scriptroshi2()
                 sleep(1)
                 master_dead, hp, argent_mob, hp_max, exp, niveau, lvlgain = encounter(
                     Master_Roshi, lvl)
                 if master_dead == True:
-                    scriptroshi3()
+                    atk += 20
+                    sword, master_sword_here = master_sword(master_dead)
+                    # scriptroshi3()
                     world_map(y, x, monstery, monsterx, gobliny, goblinx)
 
             else:
@@ -109,14 +117,25 @@ def Main():
                 sleep(1)
                 pass
         if y == 0 and x == 0:
-            Final_Bossdead, hp, argent_mob, hp_max, exp, niveau, lvlgain = encounter(
-                Final_Boss, lvl)
-            if Final_Bossdead == True:
-                system("clear")
-                finalboss4()
+            script(
+                "Voilà donc l'insecte qui brise le silence de ces lieux... Je me montrerai magnanime à ton égard. Je te laisse le choix de partir.")
+            sleep(3)
+            title = "voulez vous partir ?"
+            options = ["oui", "non"]
+            choice, index = pick(
+                options, title, indicator='=>', default_index=0)
+            sleep(1)
+            if choice == "non" or index == 1:
+                Final_Bossdead, hp, argent_mob, hp_max, exp, niveau, lvlgain = encounter(
+                    Final_Boss, lvl)
+                if Final_Bossdead == True:
+                    system("clear")
+                    finalboss4()
+            else:
+                pass
 
-        if y == 0 and x == 0:
-            encounter(Final_Boss, lvl)
+        # if y == 0 and x == 0:
+        #     encounter(Final_Boss, lvl)
         else:
             Monster_Chance = Monster_Encounter()
             if Monster_Chance < 15:
@@ -128,6 +147,11 @@ def Main():
         world_map(y, x, monstery, monsterx, gobliny, goblinx)
         print(f"argent: {argent}€       {hp}hp / {hp_max}hp")
         print(f"niveau: {niveau}        {exp}xp / {lvlgain}xp")
+        print(f"Stats: {atk}Atk        {dfs}dfs")
+        print(f"Votre inventaire: {inventaire}")
+        if master_sword_here == True:
+            print(
+                f"Vous possédez la master sword ! Votre attaque s'en retrouve décupler !")
 
 
 Main()

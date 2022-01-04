@@ -75,8 +75,8 @@ def attackmonster(atkmonster, agi, agimonster, strikemonster):
 
 
 def hpcount(strike, strikemonster, enemy):
-    global hp, hpmonster, playerdead, monsterdead, adversary, Boss1dead, Boss2dead, Final_Bossdead, atkmonster, dfsmonster
-    if_low = 0
+    global hp, hpmonster, playerdead, monsterdead, adversary, Boss1dead, Boss2dead, Final_Bossdead, atkmonster, dfsmonster, if_low
+
     if hp > 0 and hpmonster > 0:
         if agi >= agimonster:
             armormonster = dfsmonster
@@ -114,13 +114,12 @@ def hpcount(strike, strikemonster, enemy):
         hp = 0
         playerdead = True
         return (hp, hpmonster, playerdead, monsterdead)
-    elif hpmonster < 400:
+    elif hpmonster < 400 and if_low == 0:
         if monster_name == "Boss Final":
-            if if_low == 0:
-                finalboss3()
+            finalboss3()
             atkmonster += 15
             dfsmonster += 15
-            if_low += 1
+        if_low += 1
 
     elif hpmonster < 0:
         if monster_name == "Boss 1":
@@ -145,6 +144,7 @@ def hpcount(strike, strikemonster, enemy):
             hpmonster = 0
             monsterdead = True
             return (hp, hpmonster, playerdead, monsterdead)
+
     return (hp, hpmonster, playerdead, monsterdead)
 
 
@@ -157,7 +157,8 @@ def attaquer(strike, strikemonster, atk, agi, agimonster, enemy):
 
 def fight(enemy, strike, strikemonster, atk, agi, agimonster):
     global hp
-    global hpmonster
+    global hpmonster, if_low
+    if_low = 0
     print("Vous faîtes face au", monster_name, "sauvage !")
     while hp > 0 and hpmonster > 0:
         print("PV du ", monster_name, "sauvage : ", hpmonster, "PV")
@@ -169,7 +170,7 @@ def fight(enemy, strike, strikemonster, atk, agi, agimonster):
             attaquer(strike, strikemonster, atk, agi, agimonster, enemy)
         elif fight1 == "inventaire" or index == 1:
             # MANAGE INVENTORY
-            used = fonction_inventory(inventaire, hp, hp_max)
+            used = fonction_inventory(inventaire, hp, hp_max, atk)
             if used == True:
                 strikemonster = attackmonster(
                     atkmonster, agi, agimonster, strikemonster)
@@ -319,6 +320,7 @@ def encounter(adversary, lvl):
         agimonster = 2
         strikemonster = 1
         monsterdead = False
+        argent_mob = 0
 
     # print(f"Vous rencontrez un {monster_name} 🙀")
     title = f"Vous rencontrez un {monster_name} 🙀 \n Que voulez-vous faire ?"

@@ -26,7 +26,7 @@ def main_menu():
         zone1()
         input("\nAppuyez sur Entrer pour continuer")
         # rune()
-        Main()
+        # Main()
 
     elif index == 1:
         print("Quelle partie souhaitez-vous charger? (filename)")
