@@ -1,6 +1,6 @@
 from pick import pick
 from time import sleep
-from rogue_like import Boss1, Boss2, Final_Boss, LvlDesign, master_sword
+from rogue_like import Boss1, Boss2, Final_Boss, LvlDesign
 from Menu import shopkeeper1, shopkeeper2, shopkeeper3, zone2, zone3, scriptroshi1, scriptroshi2, scriptroshi3, finalboss4, script
 from os import spawnle, system
 from shop import fonction_shop
@@ -35,7 +35,6 @@ def Main():
     master_dead = False
     Final_Bossdead = False
     visited = 0
-    master_sword_here = False
     print("Pour bouger le personnage:")
     print(" -Haut  -bas \n -gauche  -droite")
     world_map(y, x, monstery, monsterx, gobliny, goblinx)
@@ -43,9 +42,6 @@ def Main():
     print(f"Stats: {atk}Atk        {dfs}dfs")
     print(f"niveau: {niveau}        {exp}xp / {lvlgain}xp")
     print(f"Votre inventaire: {inventaire}")
-    sword = master_sword(master_dead)
-    print(
-        f"Vous possédez une épée basique: {sword}")
     while Player_Life > 0:
         lvl = LvlDesign(y, lvl)
         Move = input("Entrez une direction: ")
@@ -107,8 +103,6 @@ def Main():
                 master_dead, hp, argent_mob, hp_max, exp, niveau, lvlgain = encounter(
                     Master_Roshi, lvl)
                 if master_dead == True:
-                    atk += 20
-                    sword, master_sword_here = master_sword(master_dead)
                     # scriptroshi3()
                     world_map(y, x, monstery, monsterx, gobliny, goblinx)
 
@@ -149,9 +143,6 @@ def Main():
         print(f"niveau: {niveau}        {exp}xp / {lvlgain}xp")
         print(f"Stats: {atk}Atk        {dfs}dfs")
         print(f"Votre inventaire: {inventaire}")
-        if master_sword_here == True:
-            print(
-                f"Vous possédez la master sword ! Votre attaque s'en retrouve décupler !")
 
 
 Main()
