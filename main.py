@@ -39,8 +39,8 @@ def Main():
         liste_item_etage3 = ["Potion X", "Explo-bombe"]
         liste_prix_etage3 = [40, 60]
         # 19,14
-        y = 12
-        x = 3
+        y = 3
+        x = 14
         gobliny = 19
         goblinx = 7
         monstery = 9
@@ -77,6 +77,29 @@ def Main():
         gobliny, goblinx = Goblin_Movement(gobliny, goblinx)
         # Case de sauvegarde demandant au joueur si oui ou non il veut sauvegarder
         if y == 15 and x == 5:
+            title3 = "Vous arrivez dans une zone de sauvegarde. Voulez vous y entrer ?"
+            options3 = ["oui", "non"]
+            choice, index = pick(
+                options3, title3, indicator='=>', default_index=0)
+            if choice == "oui" and index == 0:
+                save(x, y, gobliny, goblinx, monstery, monsterx, monsterdead, Boss1dead, Boss2dead, master_dead,
+                     Final_Bossdead, visited, inventaire, hp, hp_max, exp, niveau, lvlgain, dfs, argent, lvl, foe)
+                # save
+            else:
+                pass
+        if y == 13 and x == 14:
+            title3 = "Vous arrivez dans une zone de sauvegarde. Voulez vous y entrer ?"
+            options3 = ["oui", "non"]
+            choice, index = pick(
+                options3, title3, indicator='=>', default_index=0)
+            if choice == "oui" and index == 0:
+                save(x, y, gobliny, goblinx, monstery, monsterx, monsterdead, Boss1dead, Boss2dead, master_dead,
+                     Final_Bossdead, visited, inventaire, hp, hp_max, exp, niveau, lvlgain, dfs, argent, lvl, foe)
+                # save
+            else:
+                pass
+
+        if y == 3 and x == 3:
             title3 = "Vous arrivez dans une zone de sauvegarde. Voulez vous y entrer ?"
             options3 = ["oui", "non"]
             choice, index = pick(
@@ -156,7 +179,7 @@ def Main():
         # Case de Master Roshi
         if y == 3 and x == 14:
             # Niveau requis pour interagir avec le npc
-            if niveau >= 10:
+            if niveau >= 8:
                 scriptroshi2()
                 sleep(1)
                 master_dead, hp, argent_mob, hp_max, exp, niveau, lvlgain, atk = encounter(
@@ -202,8 +225,9 @@ def Main():
                     system("cls")
                     # Affichage du logo a la fin du jeu
                     script(" ▄▄▄       ███▄ ▄███▓ ███▄    █ ▓█████   ██████  ██▓ ▄▄▄      \n▒████▄    ▓██▒▀█▀ ██▒ ██ ▀█   █ ▓█   ▀ ▒██    ▒ ▓██▒▒████▄    \n▒██  ▀█▄  ▓██    ▓██░▓██  ▀█ ██▒▒███   ░ ▓██▄   ▒██▒▒██  ▀█▄  \n░██▄▄▄▄██ ▒██    ▒██ ▓██▒  ▐▌██▒▒▓█  ▄   ▒   ██▒░██░░██▄▄▄▄██ \n ▓█   ▓██▒▒██▒   ░██▒▒██░   ▓██░░▒████▒▒██████▒▒░██░ ▓█   ▓██▒\n ▒▒   ▓▒█░░ ▒░   ░  ░░ ▒░   ▒ ▒ ░░ ▒░ ░▒ ▒▓▒ ▒ ░░▓   ▒▒   ▓▒█░\n▒   ▒▒ ░░  ░      ░░ ░░   ░ ▒░ ░ ░  ░░ ░▒  ░ ░ ▒ ░  ▒   ▒▒ ░\n ░   ▒   ░      ░      ░   ░ ░    ░   ░  ░  ░   ▒ ░  ░   ▒   \n░  ░       ░            ░    ░  ░      ░   ░        ░  ░")
-                    sleep(10)
-                    break
+                    sleep(5)
+                    filename, want_load = main_menu()
+
             else:
                 pass
         else:

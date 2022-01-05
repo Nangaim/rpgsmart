@@ -212,6 +212,8 @@ def world_map(y, x, monstery, monsterx, gobliny, goblinx):
     Map[0][0] = f"|{Final_Boss}|"
     Map[3][14] = f"|{Master_Roshi}|"
     Map[15][5] = f"|{checkpoint}|"
+    Map[13][14] = f"|{checkpoint}|"
+    Map[3][3] = f"|{checkpoint}|"
     Map[monstery][monsterx] = f"|{Monster}|"
     Map[gobliny][goblinx] = f"|{Goblin}|"
 # Ce morceau sert à afficher la carte sans les "[]" et les ",", pour l'ésthétisme.

@@ -7,12 +7,12 @@ from menu import boss1, finalboss3
 from map import Goblin, Monster, foe, Boss1, Boss2, Final_Boss, Master_Roshi
 global hp, hpmonster, playerdead, monsterdead, monster_name
 # Stats du joueur
-hp_max = 250
-hp = 250
+hp_max = 2500
+hp = 2500
 exp = 0
-niveau = 1
+niveau = 10
 lvlgain = 100
-atk = 20
+atk = 50
 dfs = 5
 agi = 5
 strike = 1
@@ -231,9 +231,9 @@ def exp_gain(hp, hp_max, exp, niveau, atk, dfs, adversary, lvl, lvlgain):
         if lvl == 1:
             gain = randint(40, 50)
         if lvl == 2:
-            gain = randint(50, 65)
+            gain = randint(50, 110)
         if lvl == 3:
-            gain = randint(65, 80)
+            gain = randint(150, 210)
     elif adversary == Goblin:
         gain = randint(25, 45)
     elif adversary == Monster:
@@ -427,7 +427,7 @@ def encounter(adversary, lvl):
                 system("cls")
                 print("Vous avez vaincu le", monster_name, "sauvage !")
                 print("Il vous reste", hp, "Points de vie")
-                hp_max, exp, niveau, atk, dfs, lvlgain = exp_gain(
+                hp, hp_max, exp, niveau, atk, dfs, lvlgain = exp_gain(
                     hp, hp_max, exp, niveau, atk, dfs, adversary, lvl, lvlgain)
                 print(f"Vous avez gagné {exp}/{lvlgain}xp")
                 print(f"Vous êtes niveau {niveau}")

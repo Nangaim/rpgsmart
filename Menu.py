@@ -26,15 +26,15 @@ def main_menu():
         print("Le jeu va commencer ! \n")
         sleep(1)
         create_character()  # Creation du personnage
-        input("\nAppuyez sur Entrer pour continuer")
-        system('cls')  # Clear de terminal
-        game_start()  # Départ du dialogue qui nous raconte l'histoire
-        input("\nAppuyez sur Entrer pour continuer")
-        system('cls')
-        zone1()  # Description de la zone 1
-        input("\nAppuyez sur Entrer pour continuer")
-        system('cls')
-        sleep(2)
+        # input("\nAppuyez sur Entrer pour continuer")
+        # system('cls')  # Clear de terminal
+        # game_start()  # Départ du dialogue qui nous raconte l'histoire
+        # input("\nAppuyez sur Entrer pour continuer")
+        # system('cls')
+        # zone1()  # Description de la zone 1
+        # input("\nAppuyez sur Entrer pour continuer")
+        # system('cls')
+        # sleep(2)
         return "pass", want_load
     # Si on charge une nouvelle partie
     elif index == 1:
