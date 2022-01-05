@@ -1,5 +1,6 @@
 from os import system
 from random import randint
+# Ici se trouvent les variables permettant de placer les éléments importants du jeu sur la carte.
 Player = "😎"
 Final_Boss = "💀"
 Boss1 = "🐲"
@@ -17,6 +18,9 @@ cloud = " 🌥"
 foe = 1
 lvl = 1
 # ---------------------------------------------------------------------
+
+# Sur cette fonction, nous avons un déplacement d'un monstre au hasard, présent sur la carte.
+# Dans les conditions de la fonction, nous avons fait en sorte que la variable ne puisse pas sortir des listes servant à constituer la carte.
 
 
 def Goblin_Movement(gobliny, goblinx):
@@ -46,6 +50,8 @@ def Goblin_Movement(gobliny, goblinx):
 
 # ---------------------------------------------------------------------
 
+# Ici pareil que la fonction au dessus, avec un monstre présent sur la carte numéro deux.
+
 
 def Monster_Movement(monstery, monsterx):
     Index1 = randint(1, 3)
@@ -74,12 +80,16 @@ def Monster_Movement(monstery, monsterx):
 
 # ---------------------------------------------------------------------
 
+# Cette petite fonction sert à randomiser la chance de rencontrer un monstre lorsque l'on se déplace.
+
 
 def Monster_Encounter():
     Monster_Chance = randint(0, 50)
     return Monster_Chance
 
 # ---------------------------------------------------------------------
+
+# Ici comme Goblin et Monstre, cette fonction sert à déplacer le joueur sur la carte à l'aide d'un input dans "main.py", sans le hasard.
 
 
 def Player_Movement(Move, y, x):
@@ -93,7 +103,7 @@ def Player_Movement(Move, y, x):
             pass
 
     if Move == "s":
-        if y < 19 or y != 13 or y != 5:
+        if y != 19 and y != 13 and y != 5:
             y += 1
         else:
             print("Vous ne pouvez pas aller en bas")
@@ -115,6 +125,8 @@ def Player_Movement(Move, y, x):
     return y, x
 
 # ---------------------------------------------------------------------
+
+# Ici se trouve la construction de la carte du jeu, une liste bidimensionnelle où l'on utilise les formats pour ajouter les emojis illustrants les éléments du jeu.
 
 
 def world_map(y, x, monstery, monsterx, gobliny, goblinx):
@@ -202,13 +214,15 @@ def world_map(y, x, monstery, monsterx, gobliny, goblinx):
     Map[15][5] = f"|{checkpoint}|"
     Map[monstery][monsterx] = f"|{Monster}|"
     Map[gobliny][goblinx] = f"|{Goblin}|"
-
+# Ce morceau sert à afficher la carte sans les "[]" et les ",", pour l'ésthétisme.
     a = 0
     for a in range(len(Map)):
         World_Map.append(Map[a])
         print(*World_Map[a])
         a += 1
     return Map
+
+# Cette fonction sert simplement à indiquer aux autres fonctions sur quelle carte (une, deux ou trois) le joueur se trouve.
 
 
 def LvlDesign(y, lvl):

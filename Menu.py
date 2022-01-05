@@ -1,62 +1,74 @@
+# Permet d'executer une commande systeme
 from os import system
+# Permet de choisir avec une flèche plutôt que de devoir écrire le mot de l'item /l'action voulue
 from time import sleep
+# Permet d'utiliser les fonctions systeme
 import sys
+# Permet d'effectuer un temps d'arrêt dans le code
 from pick import pick
 from save import load
-# from RPGSmart import Main
 global filename, want_load
+
+# Le menu principal
 
 
 def main_menu():
     want_load = False
+    # Titre du jeu
     title = script_title(" ▄▄▄       ███▄ ▄███▓ ███▄    █ ▓█████   ██████  ██▓ ▄▄▄      \n▒████▄    ▓██▒▀█▀ ██▒ ██ ▀█   █ ▓█   ▀ ▒██    ▒ ▓██▒▒████▄    \n▒██  ▀█▄  ▓██    ▓██░▓██  ▀█ ██▒▒███   ░ ▓██▄   ▒██▒▒██  ▀█▄  \n░██▄▄▄▄██ ▒██    ▒██ ▓██▒  ▐▌██▒▒▓█  ▄   ▒   ██▒░██░░██▄▄▄▄██ \n ▓█   ▓██▒▒██▒   ░██▒▒██░   ▓██░░▒████▒▒██████▒▒░██░ ▓█   ▓██▒\n ▒▒   ▓▒█░░ ▒░   ░  ░░ ▒░   ▒ ▒ ░░ ▒░ ░▒ ▒▓▒ ▒ ░░▓   ▒▒   ▓▒█░\n▒   ▒▒ ░░  ░      ░░ ░░   ░ ▒░ ░ ░  ░░ ░▒  ░ ░ ▒ ░  ▒   ▒▒ ░\n ░   ▒   ░      ░      ░   ░ ░    ░   ░  ░  ░   ▒ ░  ░   ▒   \n░  ░       ░            ░    ░  ░      ░   ░        ░  ░\n\n")
     sleep(2)
     options = ["Nouvelle partie", "Charger une partie",
                "Règles", "Credits", "quitter"]
     choice, index = pick(
         options, title, indicator='=>', default_index=0)
+    # Si on commence une nouvelle partie
     if index == 0:
         print("Le jeu va commencer ! \n")
         sleep(1)
-        create_character()
-        # input("\nAppuyez sur Entrer pour continuer")
-        # system('cls')
-        # game_start()
-        # input("\nAppuyez sur Entrer pour continuer")
-        # system('cls')
-        # zone1()²
-        # input("\nAppuyez sur Entrer pour continuer")
-        # system('cls')
-        # sleep(2)
+        create_character()  # Creation du personnage
+        input("\nAppuyez sur Entrer pour continuer")
+        system('cls')  # Clear de terminal
+        game_start()  # Départ du dialogue qui nous raconte l'histoire
+        input("\nAppuyez sur Entrer pour continuer")
+        system('cls')
+        zone1()  # Description de la zone 1
+        input("\nAppuyez sur Entrer pour continuer")
+        system('cls')
+        sleep(2)
         return "pass", want_load
-
+    # Si on charge une nouvelle partie
     elif index == 1:
         filename, want_load = new_game()
         print(f"Votre partie {filename} est en cours de chargement")
         return filename, want_load
+    # Si on veut voir les règles
     elif index == 2:
         print("\n Règles : \n \n Le jeu prendra place dans la première des trois zones de l'univers. \n Il s'agit d'un tour par tour classique dans lequel vous devrez vous confronter à différents monstres dans le but de vous frayer \n un chemin jusqu'à l'antagoniste. \n \n Avant d'y parvenir, vous trouverez sur votre route différents objets et personnages qui vous aideront à poursuivre votre quête. \n  \n Bon courage, aventurier!")
         sleep(15)
         main_menu()
-
+    # Si on veut afficher les credits
     elif index == 3:
         print("Credits : Jeu créé par Baptiste Verdier , Fabien Renoir , Julien Rion , Sandie Ouallet et Thierry Maignan.")
         sleep(10)
         main_menu()
-
+    # Si on veut directement quitter le programme
     elif index == 4:
         system('cls')
         sys.exit()
 
     return index
 
+# Fonction qui permet de charger une ancienne partie
+
 
 def new_game():
     global filename, want_load
     print("Quelle partie souhaitez-vous charger? (filename)")
     filename = input()
-    want_load = True
+    want_load = True  # Si on charge la partie la variable devient True
     return filename, want_load
+
+# Fonction qui permet de créer son personnage
 
 
 def create_character():
@@ -66,6 +78,8 @@ def create_character():
     print("\nFort bien", player_name,
           ", que les cieux vous donnent la force de faire face à votre destin...")
     return player_name
+
+# script permettant d'afficher un texte lettre par lettre
 
 
 def script(str):
@@ -78,6 +92,8 @@ def script(str):
         else:
             sleep(0.04)
 
+# script permettant d'afficher un texte lettre par lettre mais pour le titre en ascii
+
 
 def script_title(str):
 
@@ -85,6 +101,8 @@ def script_title(str):
         sys.stdout.write(letter)
         sys.stdout.flush()
         sleep(0.005)
+
+# Toutes les boites de dialogue du jeu !
 
 
 def shopkeeper1():
