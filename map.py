@@ -2,14 +2,18 @@ from os import system
 from random import randint
 Player = "😎"
 Final_Boss = "💀"
-Boss1 = "🤩"
-Boss2 = "😤"
+Boss1 = "🐲"
+Boss2 = "🗡 "
 Shop = "💰"
 Shop1 = "💰"
 Shop2 = "💰"
-Master_Roshi = "🥸 "
+Master_Roshi = "👴"
 Monster = "😡"
-Goblin = "🤑"
+Goblin = "😈"
+checkpoint = "⭐️"
+trees = "🌲"
+chain = "  "
+cloud = " 🌥"
 foe = 1
 lvl = 1
 # ---------------------------------------------------------------------
@@ -81,28 +85,28 @@ def Monster_Encounter():
 def Player_Movement(Move, y, x):
     Move = Move.strip()
     system("clear")
-    if Move == "haut":
-        if y != 0:
+    if Move == "z":
+        if y != 0 or y != 15 or y != 7:
             y -= 1
         else:
             print("Vous ne pouvez pas aller en haut")
             pass
 
-    if Move == "bas":
-        if y < 19:
+    if Move == "s":
+        if y < 19 or y != 13 or y != 5:
             y += 1
         else:
             print("Vous ne pouvez pas aller en bas")
             pass
 
-    if Move == "gauche":
+    if Move == "q":
         if x != 0:
             x -= 1
         else:
             print("Vous ne pouvez pas aller a gauche")
             pass
 
-    if Move == "droite":
+    if Move == "d":
         if x < 14:
             x += 1
         else:
@@ -129,6 +133,65 @@ def world_map(y, x, monstery, monsterx, gobliny, goblinx):
         if i == 13 or i == 6:
             Map.append(L1)
     Map[y][x] = f"|{Player}|"
+
+    Map[17][0] = f"|{cloud}|"
+    Map[18][1] = f"|{cloud}|"
+    Map[16][14] = f"|{cloud}|"
+    Map[17][14] = f"|{cloud}|"
+    Map[15][11] = f"|{cloud}|"
+    Map[16][4] = f"|{cloud}|"
+    Map[18][11] = f"|{cloud}|"
+    Map[19][13] = f"|{cloud}|"
+    Map[16][10] = f"|{cloud}|"
+    Map[16][8] = f"|{cloud}|"
+    Map[17][7] = f"|{cloud}|"
+    Map[16][6] = f"|{cloud}|"
+    Map[17][6] = f"|{cloud}|"
+
+    Map[18][9] = f"|{trees}|"
+    Map[19][6] = f"|{trees}|"
+    Map[19][8] = f"|{trees}|"
+    Map[13][0] = f"|{trees}|"
+    Map[13][1] = f"|{trees}|"
+    Map[13][4] = f"|{trees}|"
+    Map[13][5] = f"|{trees}|"
+
+    Map[11][8] = f"|{trees}|"
+    Map[11][8] = f"|{trees}|"
+    Map[12][7] = f"|{trees}|"
+    Map[12][10] = f"|{trees}|"
+    Map[12][14] = f"|{trees}|"
+    Map[9][8] = f"|{trees}|"
+    Map[9][6] = f"|{trees}|"
+    Map[9][1] = f"|{trees}|"
+    Map[7][0] = f"|{trees}|"
+    Map[7][4] = f"|{trees}|"
+    Map[7][9] = f"|{trees}|"
+    Map[9][13] = f"|{trees}|"
+    Map[10][12] = f"|{trees}|"
+    Map[12][9] = f"|{trees}|"
+    Map[10][3] = f"|{trees}|"
+
+    Map[4][4] = f"|{chain}|"
+    Map[5][5] = f"|{chain}|"
+    Map[3][6] = f"|{chain}|"
+    Map[4][13] = f"|{chain}|"
+    Map[4][12] = f"|{chain}|"
+    Map[5][9] = f"|{chain}|"
+    Map[5][2] = f"|{chain}|"
+    Map[4][4] = f"|{chain}|"
+    Map[0][4] = f"|{chain}|"
+    Map[0][5] = f"|{chain}|"
+    Map[0][8] = f"|{chain}|"
+    Map[4][4] = f"|{chain}|"
+    Map[1][14] = f"|{chain}|"
+    Map[3][1] = f"|{chain}|"
+    Map[0][1] = f"|{chain}|"
+    Map[2][11] = f"|{chain}|"
+    Map[3][9] = f"|{chain}|"
+    Map[3][8] = f"|{chain}|"
+    Map[0][12] = f"|{chain}|"
+
     Map[16][13] = f"|{Shop}|"
     Map[13][3] = f"|{Shop1}|"
     Map[3][10] = f"|{Shop2}|"
@@ -136,8 +199,10 @@ def world_map(y, x, monstery, monsterx, gobliny, goblinx):
     Map[7][14] = f"|{Boss2}|"
     Map[0][0] = f"|{Final_Boss}|"
     Map[3][14] = f"|{Master_Roshi}|"
+    Map[15][5] = f"|{checkpoint}|"
     Map[monstery][monsterx] = f"|{Monster}|"
     Map[gobliny][goblinx] = f"|{Goblin}|"
+
     a = 0
     for a in range(len(Map)):
         World_Map.append(Map[a])
