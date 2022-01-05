@@ -24,10 +24,10 @@ def main_menu():
         # game_start()
         # input("\nAppuyez sur Entrer pour continuer")
         # system('cls')
-        # zone1()
+        # zone1()²
         # input("\nAppuyez sur Entrer pour continuer")
         # system('cls')
-        sleep(2)
+        # sleep(2)
         return "pass", want_load
 
     elif index == 1:

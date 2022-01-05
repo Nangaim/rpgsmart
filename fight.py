@@ -10,12 +10,12 @@ from menu import boss1, finalboss3
 # Boss1dead, Boss2dead, Final_Bossdead
 from map import Goblin, Monster, foe, Boss1, Boss2, Final_Boss, Master_Roshi
 global hp, hpmonster, playerdead, monsterdead, monster_name
-hp_max = 2000
-hp = 2000
+hp_max = 200
+hp = 200
 exp = 0
 niveau = 11
 lvlgain = 100
-atk = 15
+atk = 50
 dfs = 5
 agi = 5
 strike = 1
@@ -422,14 +422,8 @@ def encounter(adversary, lvl):
                 return Final_Bossdead, hp, argent_mob, hp_max, exp, niveau, lvlgain
             if playerdead == True:
                 system("cls")
-                print("""
-  _____                         ____
- / ____|                       / __ \
-| |  __  __ _ _ __ ___   ___  | |  | |_   _____ _ __
-| | |_ |/ _` | '_ ` _ \ / _ \ | |  | \ \ / / _ \ '__|
-| |__| | (_| | | | | | |  __/ | |__| |\ V /  __/ |
- \_____|\__,_|_| |_| |_|\___|  \____/  \_/ \___|_|
-    """)
+                print(""" .88888. \nd8'   `88 \n88        .d8888b. 88d8b.d8b. .d8888b.    .d8888b. dP   .dP .d8888b. 88d888b. \n88   YP88 88'  `88 88'`88'`88 88ooood8    88'  `88 88   d8' 88ooood8 88'  `88 \nY8.   .88 88.  .88 88  88  88 88.  ...    88.  .88 88 .88'  88.  ... 88\n `88888'  `88888P8 dP  dP  dP `88888P'    `88888P' 8888P'   `88888P' dP   \n\n\n""")
+
                 print("Vous avez été vaincu par le ",
                       monster_name, "sauvage !")
                 waiting = input("Appuyez sur Entrer pour continuer...")
@@ -437,12 +431,6 @@ def encounter(adversary, lvl):
                     system("cls")
                 return playerdead, hp, argent_mob, hp_max, exp, niveau, lvlgain
         if choix == "fuir" or index == 0:
-            # chance_fly2 = randint(0, 4)
-            # if chance_fly2 < 2:
-            #     print("Vous n'avez pas réussi à fuir! 😹")
-            #     input("Appuyez sur entrer... ")
-            #     fight(adversary, strike, strikemonster, atk, agi, agimonster)
-            # else:
             monsterdead == False
             argent_mob == 0
             return monsterdead, hp, argent_mob, hp_max, exp, niveau, lvlgain

@@ -49,6 +49,8 @@ def Main():
         master_dead = False
         Final_Bossdead = False
         visited = 0
+        visited2 = 0
+        visited3 = 0
     Player_Life = 1
 
     world_map(y, x, monstery, monsterx, gobliny, goblinx)
@@ -90,20 +92,20 @@ def Main():
             visited += 1
             y += 1
         if y == 13 and x == 3:
-            if visited == 0:
+            if visited2 == 0:
                 shopkeeper2()
                 sleep(1)
             inventaire, argent = fonction_shop(
                 inventaire, argent, liste_item_etage2, liste_prix_etage2)
-            visited += 1
+            visited2 += 1
             y -= 1
         if y == 3 and x == 10:
-            if visited == 0:
+            if visited3 == 0:
                 shopkeeper3()
                 sleep(1)
             inventaire, argent = fonction_shop(
                 inventaire, argent, liste_item_etage3, liste_prix_etage3)
-            visited += 1
+            visited3 += 1
             y += 1
         if y == 15 and x == 0:
             boss1()
@@ -181,7 +183,10 @@ def Main():
                     foe, lvl)
                 if monsterdead == True:
                     argent += argent_mob
-
+        if hp == 0:
+            filename, want_load = main_menu()
+            # break
+        system('cls')
         world_map(y, x, monstery, monsterx, gobliny, goblinx)
         print(f"Argent: {argent}€       {hp}hp / {hp_max}hp")
         print(f"Niveau: {niveau}        {exp}xp / {lvlgain}xp")
