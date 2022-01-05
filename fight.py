@@ -1,15 +1,12 @@
-# from _typeshed import Self
 from os import system
 from time import sleep
 from pick import pick
 from random import randint
 from inventory import fonction_inventory, inventaire
 from menu import boss1, finalboss3
-
-# IMPORT DES BOSS A FAIRE DANS /ROGUE_LIKE.PY
-# Boss1dead, Boss2dead, Final_Bossdead
 from map import Goblin, Monster, foe, Boss1, Boss2, Final_Boss, Master_Roshi
 global hp, hpmonster, playerdead, monsterdead, monster_name
+# Stats du joueur
 hp_max = 250
 hp = 250
 exp = 0
@@ -22,14 +19,7 @@ strike = 1
 playerdead = False
 monster_name = None
 
-# ici fabien j'ai du corriger son code car il arrive pas a me faire un menu de combat en 4 jours
-# Trigger : définir l'ennemi
-# Choice : faire face ou fuir
-# attack et attackmonster: define le coup du joueur (ou du monstre) quand il attaque (+ coups critiques)
-# hpcount : calcul des hp restant + qui frappe en premier
-# attaquer : séquence entière des 3 fonctions nommées au dessus
-# fight : tout l'ensemble du fight et ses choix (inventory etc)
-# encounter : trigger fight si le joueur choisit de se battre
+# Fonction pour calculer les chances de coup critique ainsi que les chances d'esquive
 
 
 def attack(atk, agi, agimonster, strike):
@@ -52,6 +42,8 @@ def attack(atk, agi, agimonster, strike):
         strike = strike
     return strike
 
+# Fonction pour calculer les chances de coup critique ainsi que les chances d'esquive pour le monstre
+
 
 def attackmonster(atkmonster, agi, agimonster, strikemonster):
     chancecrit = randint(0, 10)
@@ -73,6 +65,9 @@ def attackmonster(atkmonster, agi, agimonster, strikemonster):
     else:
         strikemonster = strikemonster
     return strikemonster
+
+
+# Décompte des hp et indique si le monstre est mort ou pas
 
 
 def hpcount(strike, strikemonster, enemy):
@@ -121,13 +116,15 @@ def hpcount(strike, strikemonster, enemy):
         hp = 0
         playerdead = True
         return (hp, hpmonster, playerdead, monsterdead)
+    # Pour le boss final si il passe sous les 400 pv
     elif hpmonster < 400 and if_low == 0:
         if monster_name == "Horreur mystique":
-            finalboss3()
+            finalboss3()  # Boite de dialogue qui s'exécute quand le boss final est en dessous de 400 pv
+            # Buff des stats du boss final
             atkmonster += 15
             dfsmonster += 15
-        if_low += 1
-
+        if_low += 1  # Variable permettant de répeter la boucle qu'une seule fois
+    # Tout les return en fonction du type de monstre (return des valeurs différentes en fonction du monstre)
     elif hpmonster < 0:
         if monster_name == "Lézard géant":
             hpmonster = 0
@@ -154,12 +151,16 @@ def hpcount(strike, strikemonster, enemy):
 
     return (hp, hpmonster, playerdead, monsterdead)
 
+# Fonction d'attaque pour un round
+
 
 def attaquer(strike, strikemonster, atk, agi, agimonster, enemy):
     strike = attack(atk, agi, agimonster, strike)
     strikemonster = attackmonster(atkmonster, agi, agimonster, strikemonster)
     hp, hpmonster, playerdead, monsterdead = hpcount(
         strike, strikemonster, enemy)
+
+# Fonction de combat
 
 
 def fight(enemy, strike, strikemonster, atk, agi, agimonster):
@@ -168,16 +169,25 @@ def fight(enemy, strike, strikemonster, atk, agi, agimonster):
     if_low = 0
     print("Vous faîtes face au", monster_name, "sauvage !")
 
+    # Boucle de combat
+
     while hp > 0 and hpmonster > 0:
         print("PV du ", monster_name, "sauvage : ", hpmonster, "PV")
         print("Il vous reste actuellement", hp, "Points de vie.")
         title2 = f"Vous affrontez {monster_name} \n Il vous reste {hp} HP \n Que voulez-vous faire ?"
         options2 = ["Attaquer", "Inventaire", "Fuir"]
+
+        # Menu de selection d'action
+
         fight1, index = pick(options2, title2, indicator='=>', default_index=0)
+        # Si on veut attaquer
         if fight1 == "attaquer" or index == 0:
             attaquer(strike, strikemonster, atk, agi, agimonster, enemy)
+        # Si on veut ouvrir l'inventaire
         elif fight1 == "inventaire" or index == 1:
-            # MANAGE INVENTORY
+
+            # Ouverture de l'inventaire
+
             used, hp, hpmonster = fonction_inventory(
                 inventaire, hp, hp_max, atk, hpmonster)
             if used == True:
@@ -187,9 +197,12 @@ def fight(enemy, strike, strikemonster, atk, agi, agimonster):
                     strike, strikemonster, enemy)
 
             pass
+        # Si on veut fuir
         elif fight1 == "fuir" or index == 2:
+            # On empêche la fuite pour les boss
             if enemy != (Goblin, Monster, Boss1, Boss2, Final_Boss, Master_Roshi):
                 chance_fly = randint(0, 4)
+                # Sur les monstres normaux on a un % de chance que la fuite ne marche pas
                 if chance_fly < 2:
                     title2 = f"Vous affrontez {monster_name} \n Il vous reste {hp} HP \n Que voulez-vous faire ? Vous n'avez pas réussi à fuir! 😹"
                     strikemonster = attackmonster(
@@ -197,16 +210,19 @@ def fight(enemy, strike, strikemonster, atk, agi, agimonster):
                     hp, hpmonster, playerdead, monsterdead = hpcount(
                         strike, strikemonster, enemy)
                 else:
+                    # Si la fuite est réussie
                     system('cls')
                     print(f"Vous parvenez a fuir {monster_name} ")
                     sleep(1.5)
                     break
             else:
+                # Si on essaye de fuire un boss (l'affichage se réinitialise d'elle même ligne 190 on ne voit le texte qu'un cours instant)
                 chance_fly = 0
                 if chance_fly < 2:
                     title2 = f"Vous affrontez {monster_name} \n Il vous reste {hp} HP \n Que voulez-vous faire ? Vous ne pouvez pas fuir un boss! 😹"
                 else:
                     break
+# Fonction qui gère le gain d'exp et le lvlup
 
 
 def exp_gain(hp, hp_max, exp, niveau, atk, dfs, adversary, lvl, lvlgain):
@@ -232,13 +248,14 @@ def exp_gain(hp, hp_max, exp, niveau, atk, dfs, adversary, lvl, lvlgain):
         gain = randint(1, 2)
 
     exp += gain
-
+    # Tant que l'exp est supérieure au nombre d'exp nécessaire pour monter de niveau la boucle continue
     while exp >= lvlgain:
         niveau += 1
         exp -= lvlgain
         lvlgain = round(lvlgain * 1.5)
         title = f"Vous avez gagné un niveau, vous êtes niveau {niveau} quelle statistique souhaitez vous augmenter ?"
         options = ["Vie", "Attaque", "Défense"]
+        # Menu pour choisir quelle stat augmenter
         choix_up, index = pick(options, title, indicator='=>', default_index=0)
         if index == 0:
             hp_max += 10
@@ -246,9 +263,11 @@ def exp_gain(hp, hp_max, exp, niveau, atk, dfs, adversary, lvl, lvlgain):
             atk += 4
         elif index == 2:
             dfs += 4
-        hp_max += 10
-        hp = hp_max
+        hp_max += 10  # On augemente les hp max a chaque montée de niveau
+        hp = hp_max  # On soigne le joueur apres une montée de niveau
     return hp, hp_max, exp, niveau, atk, dfs, lvlgain
+
+# Fonction pour rencontrer un monstre
 
 
 def encounter(adversary, lvl):
@@ -257,6 +276,8 @@ def encounter(adversary, lvl):
     Boss2dead = False
     master_dead = False
     Final_Bossdead = False
+    # On définit les stats de chaque monstre
+    # La variable lvl correspond a la zone (lvl=1 ---> zone1)
     if adversary == foe:
         if lvl == 1:
             foes_name = ['Lutin', 'Fungus',
@@ -350,15 +371,18 @@ def encounter(adversary, lvl):
         strikemonster = 1
         monsterdead = False
         argent_mob = 0
-
+    # Menu d'option quand on rencontre un monstre
     title = f"Vous rencontrez un {monster_name} 🙀 \n Que voulez-vous faire ?"
     options = ["Attaquer", "Fuir"]
     choix, index = pick(options, title, indicator='=>', default_index=0)
 
     system("cls")
+    # 2eme boucle de combat
     while playerdead != True or monsterdead != True:
+        # Si on attaque
         if choix == "attaquer" or index == 0:
             fight(adversary, strike, strikemonster, atk, agi, agimonster)
+            # Si le monstre est mort (conditions différentes en fonction du monstre)
             if monsterdead == True:
                 system("cls")
                 print("Vous avez vaincu le", monster_name, "sauvage !")
@@ -424,8 +448,10 @@ def encounter(adversary, lvl):
                 if waiting == "":
                     system("cls")
                 return Final_Bossdead, hp, argent_mob, hp_max, exp, niveau, lvlgain, atk
+            # Si le joueur est mort
             if playerdead == True:
                 system("cls")
+                # Ascii game over
                 print(""" .88888. \nd8'   `88 \n88        .d8888b. 88d8b.d8b. .d8888b.    .d8888b. dP   .dP .d8888b. 88d888b. \n88   YP88 88'  `88 88'`88'`88 88ooood8    88'  `88 88   d8' 88ooood8 88'  `88 \nY8.   .88 88.  .88 88  88  88 88.  ...    88.  .88 88 .88'  88.  ... 88\n `88888'  `88888P8 dP  dP  dP `88888P'    `88888P' 8888P'   `88888P' dP   \n\n\n""")
 
                 print("Vous avez été vaincu par le ",
@@ -439,6 +465,7 @@ def encounter(adversary, lvl):
             argent_mob == 0
             return monsterdead, hp, argent_mob, hp_max, exp, niveau, lvlgain, atk
         else:
+            # Si on fuit le monstre
             system("cls")
             print("Il vous reste", hp, "Points de vie")
             print(f"Vous avez fui {monster_name}")
